@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class TypeTestController extends Controller
 {
+    public function git()
+    {
+        echo "hello from git";
+    }
     public function index()
     {
         return view('test');

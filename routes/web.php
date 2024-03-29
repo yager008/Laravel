@@ -37,6 +37,7 @@ Route::get('/Create', [TypeTestController::class, 'create' ])->name('typeTestCre
 
 Route::get('/Bible', [TypeTestController::class, 'bible' ])->name('typeTest.bible');
 
+Route::get('/TestGit', [TypeTestController::class, 'git' ])->name('typeTestGit');
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
