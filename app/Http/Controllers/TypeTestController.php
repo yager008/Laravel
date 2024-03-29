@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class TypeTestController extends Controller
 {
+    public function linux()
+    {
+        echo "hello from git";
+        echo "hello";
+    }
+
     public function git()
     {
         echo "hello from git";
