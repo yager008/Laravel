@@ -1,8 +1,6 @@
 @extends('layouts.main')
-
 @section('content')
 chose page
-
 
 <table class="table table-dark table-striped">
     <thead>

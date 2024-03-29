@@ -15,4 +15,8 @@ class MyPlaceController extends Controller
     {
         return 'this is my page';
     }
+    public function index3()
+    {
+        return view('test');
+    }
 }

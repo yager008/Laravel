@@ -10,12 +10,10 @@ class MainPageController extends Controller
     {
         return view('page0');
     }
-
     public function page1 ()
     {
         return view('page1');
     }
-
     public function page2 ()
     {
         return view('page2');
