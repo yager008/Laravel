@@ -30,13 +30,14 @@ class TypeTestController extends Controller
 
     public function storeResult()
     {
+
         $data = request()->validate([
-            "timer" => 'int',
-            "name" => 'string'
+            "timer" => 'string',
         ]);
 
         typeresult::create([
-            'timer' => '30'
+            'result' => $data['timer'],
+            'username' => 'amorous'
         ]);
 
         return redirect()->route("TypeTestControllerPost.type");

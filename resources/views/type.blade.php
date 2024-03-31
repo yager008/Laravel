@@ -31,6 +31,7 @@ if (!isset($_SESSION['lastTrySpeed']))
 //
 //}
 
+//!!!!
 if(($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST['timer'])))
 {
     echo "<br>";
@@ -110,8 +111,10 @@ echo "last try speed: {$outputSpeed} s/m <br>";
 
     <div>
 
-        <form method="POST" action="{{ route('TypeTestController.store') }}">
+        <form method="POST" action="{{ route('TypeTestController.store')}}">
         @csrf
+
+            <input type="text" id="outputSpeed" name="outputSpeed" value="{{ $outputSpeed }}" readonly style="" >
             <lable for="timer"></lable>
             <input type="text" id="timer" name="timer" readonly style="">
             <input type="submit" id="submitTimeButton" name="submitTimeButton" style="visibility: hidden">
@@ -174,11 +177,13 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox'])) {
     function myTimer() {
         timerCounter++;
         document.getElementById('timer').value = timerCounter.toString();
+
     }
     document.getElementById('textInput').focus();
 </script>
     <?php
 }
+
 if(($_SERVER['REQUEST_METHOD'] === "POST") && isset($_POST['BibleButton']))
 {
     ?>
