@@ -21,6 +21,10 @@ class TypeTestController extends Controller
     {
         return view('test');
     }
+    public function type()
+    {
+        return view('type');
+    }
 
     public function upload(Request $request)
     {

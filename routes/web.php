@@ -41,5 +41,8 @@ Route::get('/TestGit', [TypeTestController::class, 'git' ])->name('typeTestGit')
 
 Route::get('/TestLinux', [TypeTestController::class, 'linux' ])->name('typeTestLinux');
 
+Route::get('/Type', [TypeTestController::class, 'type' ])->name('TypeTestController.type');
+Route::post('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControllerPost.type');
+
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
