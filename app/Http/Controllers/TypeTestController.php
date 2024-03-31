@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Test;
+use App\Models\typeresult;
 use Illuminate\Http\Request;
 
 class TypeTestController extends Controller
@@ -24,6 +25,21 @@ class TypeTestController extends Controller
     public function type()
     {
         return view('type');
+    }
+
+
+    public function storeResult()
+    {
+        $data = request()->validate([
+            "timer" => 'int',
+            "name" => 'string'
+        ]);
+
+        typeresult::create([
+            'timer' => '30'
+        ]);
+
+        return redirect()->route("TypeTestControllerPost.type");
     }
 
     public function upload(Request $request)

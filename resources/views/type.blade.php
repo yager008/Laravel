@@ -24,6 +24,13 @@ if (!isset($_SESSION['lastTrySpeed']))
     $_SESSION['lastTrySpeed'] = 0;
 }
 
+//if(($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['submitTimeButton'])))
+//{
+//    route("");
+//
+//
+//}
+
 if(($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST['timer'])))
 {
     echo "<br>";
@@ -103,11 +110,11 @@ echo "last try speed: {$outputSpeed} s/m <br>";
 
     <div>
 
-        <form method="POST" action="{{ route('TypeTestController.type') }}">
+        <form method="POST" action="{{ route('TypeTestController.store') }}">
         @csrf
             <lable for="timer"></lable>
             <input type="text" id="timer" name="timer" readonly style="">
-            <input type="submit" id="submitTimeButton" style="visibility: hidden">
+            <input type="submit" id="submitTimeButton" name="submitTimeButton" style="visibility: hidden">
         </form>
     </div>
 

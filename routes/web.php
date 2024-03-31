@@ -43,6 +43,7 @@ Route::get('/TestLinux', [TypeTestController::class, 'linux' ])->name('typeTestL
 
 Route::get('/Type', [TypeTestController::class, 'type' ])->name('TypeTestController.type');
 Route::post('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControllerPost.type');
+Route::post('/StoreResult', [TypeTestController::class, 'storeResult' ])->name('TypeTestController.store');
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
