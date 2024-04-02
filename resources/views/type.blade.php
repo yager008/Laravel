@@ -68,6 +68,7 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && isset($_POST['BibleButton']))
     $stringResponse = str_replace(",", ', ', $stringResponse);
     $stringResponse = str_replace(";", '; ', $stringResponse);
     $stringResponse = str_replace("  ", ' ', $stringResponse);
+    $stringResponse = str_replace("—", '-', $stringResponse);
     echo "<div id='bibleResponse' style='display: none'>{$stringResponse}</div>";
     //+ js before /body
 }
@@ -95,6 +96,7 @@ echo "last try speed: {$outputSpeed} s/m <br>";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auto Update Text</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
         body {
             background-color: #1a202c;
@@ -104,6 +106,12 @@ echo "last try speed: {$outputSpeed} s/m <br>";
                 background-color : #577393;
                 border-color: #ef4444;
             }
+            input[type="text"]:focus {
+
+                background-color : #577393;
+                border-color: #ef4444;
+            }
+
             button {
                 background-color : #577393;
                 border-color: #ef4444;
@@ -115,7 +123,6 @@ echo "last try speed: {$outputSpeed} s/m <br>";
             }
         }
     </style>
-
 </head>
 <body>
 <div class="container-fluid d-flex flex-column align-items-center justify-content-center vh-100">
@@ -210,6 +217,6 @@ else
     echo"hello naggers!!!";
 }
 ?>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
