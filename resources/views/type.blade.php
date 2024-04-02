@@ -1,3 +1,5 @@
+@vite(['resources/js/app.js'])
+
 <?php
 
 //Session set
