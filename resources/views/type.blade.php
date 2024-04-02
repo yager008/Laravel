@@ -1,4 +1,3 @@
-@vite(['resources/js/app.js'])
 <?php
 
 //Session set
@@ -94,14 +93,26 @@ echo "last try speed: {$outputSpeed} s/m <br>";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auto Update Text</title>
+    <style>
+        body {
+            background-color: #1a202c;
+            color: #9ca3af;
+            input[type="text"], textarea {
 
-{{--    <script>--}}
-{{--        function updateText() {--}}
-{{--            alert("updateTextFunction");--}}
-{{--        }--}}
-{{--    </script>--}}
-    <!--    <script src='bootstrap-5.3.3-dist/js/bootstrap.min.js'></script>-->
-{{--    <link rel="stylesheet" href="bootstrap-5.3.3-dist/css/bootstrap.min.css">--}}
+                background-color : #577393;
+                border-color: #ef4444;
+            }
+            button {
+                background-color : #577393;
+                border-color: #ef4444;
+            }
+            input[type='submit'] {
+                background-color : #577393;
+                border-color: #ef4444;
+
+            }
+        }
+    </style>
 
 </head>
 <body>
