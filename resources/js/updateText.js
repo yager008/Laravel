@@ -38,6 +38,7 @@ export function updateText() {
     {
         document.getElementById(('bool')).textContent = 'true'
         console.log("true")
+        alert('text typed');
         textTyped();
     }
     else

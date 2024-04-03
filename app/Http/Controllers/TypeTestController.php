@@ -24,19 +24,20 @@ class TypeTestController extends Controller
     }
     public function type()
     {
-        return view('type');
+        $typeresults = typeresult::all();
+        return view('type', compact('typeresults'));
     }
-
 
     public function storeResult()
     {
 
         $data = request()->validate([
             "timer" => 'string',
+            "outputSpeed" => 'string'
         ]);
 
         typeresult::create([
-            'result' => $data['timer'],
+            'result' => $data['outputSpeed'],
             'username' => 'amorous'
         ]);
 

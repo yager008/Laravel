@@ -77,7 +77,7 @@ if(!empty($_SESSION['textToCompare']))
 {
     echo "textToCompare: <div id='textToCompare'>{$_SESSION['textToCompare']}</div><br>";
     $lenOfCompareText = strlen($_SESSION['textToCompare']);
-    echo "Length of compare text: {$lenOfCompareText} <br>";
+    echo "<div style='float: left';> Length of compare text:</div> <div id='lenOfFullText';> {$lenOfCompareText}</div> <br>";
 }
 else
 {
@@ -131,8 +131,7 @@ echo "last try speed: {$outputSpeed} s/m <br>";
 
         <form method="POST" action="{{ route('TypeTestController.store')}}">
         @csrf
-
-            <input type="text" id="outputSpeed" name="outputSpeed" value="{{ $outputSpeed }}" readonly style="" >
+            <input type="text" id="outputSpeed" name="outputSpeed" placeholder="outputSpeed" value="{{ strlen($_SESSION['textToCompare']) }}" readonly style="" >
             <lable for="timer"></lable>
             <input type="text" id="timer" name="timer" readonly style="">
             <input type="submit" id="submitTimeButton" name="submitTimeButton" style="visibility: hidden">
@@ -194,9 +193,12 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox'])) {
     window.setInterval(myTimer, 1000);
     function myTimer() {
         timerCounter++;
-        document.getElementById('timer').value = timerCounter.toString();
+        let fullTextLength = document.getElementById('lenOfFullText').innerText;
 
+        document.getElementById('timer').value = timerCounter.toString();
+        document.getElementById('outputSpeed').value = fullTextLength / timerCounter.toString() * 60;
     }
+
     document.getElementById('textInput').focus();
 </script>
     <?php
@@ -208,15 +210,21 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && isset($_POST['BibleButton']))
 <script>
     bibleText = document.getElementById('bibleResponse').textContent;
     document.getElementById('inputTextBox').value = bibleText;
+
+
 </script>
     <?php
-    echo"hello naggers!!!";
-}
-else
-{
-    echo"hello naggers!!!";
 }
 ?>
+
+
+<ul>
+@foreach ($typeresults as $result)
+        <li>{{ $result }}</li>
+@endforeach
+</ul>
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
