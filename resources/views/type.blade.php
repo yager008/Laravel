@@ -79,6 +79,7 @@ if(!empty($_SESSION['textToCompare']))
     $lenOfCompareText = strlen($_SESSION['textToCompare']);
     echo "<div style='float: left';> Length of compare text:</div> <div id='lenOfFullText';> {$lenOfCompareText}</div> <br>";
 }
+
 else
 {
     echo "text to compare is empty <br>";

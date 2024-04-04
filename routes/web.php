@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/Type');
 });
 
 use App\Http\Controllers\MyPlaceController;
@@ -45,5 +45,8 @@ Route::get('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControl
 Route::post('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControllerPost.type');
 Route::post('/StoreResult', [TypeTestController::class, 'storeResult' ])->name('TypeTestController.store');
 
+Route::get('/testTail', [TypeTestController::class, 'testTailwind' ])->name('TypeTestController.testTailwind');
+
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
