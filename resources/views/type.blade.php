@@ -23,16 +23,8 @@ if (!isset($_SESSION['lastTrySpeed']))
     $_SESSION['lastTrySpeed'] = 0;
 }
 
-//if(($_SERVER['REQUEST_METHOD'] === "POST" && isset($_POST['submitTimeButton'])))
-//{
-//    route("");
-//
-//
-//}
-
-//!!!!
 if(($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST['timer'])))
-{
+{ // сетим prevTime и lastTrySpeed
     echo "<br>";
     echo "Text Length: " . strlen($_SESSION['textToCompare']) . "<br>";
     echo "Timer Value: " . $_POST['timer'] . "<br>";
@@ -151,6 +143,9 @@ echo "last try speed: {$outputSpeed} s/m <br>";
         <form method="POST">
         @csrf
             <label>
+                <input type="checkbox" title="should save text to savedtexts" name="checkbox" id="checkbox">
+            </label>
+            <label>
                 <input type="text" name="inputTextBox" id="inputTextBox">
             </label>
             <label>
@@ -187,7 +182,8 @@ echo "last try speed: {$outputSpeed} s/m <br>";
 </div>
 
 <?php
-if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox'])) {
+if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox']))
+{ //Запускаем таймер который каждую секунду апдейтит timer value, и output speed, фокусим на textInput
     ?>
 <script>
     let timerCounter = 0;
@@ -206,13 +202,11 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox'])) {
 }
 
 if(($_SERVER['REQUEST_METHOD'] === "POST") && isset($_POST['BibleButton']))
-{
+{ // сетим inputTextBox содержимым BibleResponse (невидимым дивом который сетится через api)
     ?>
 <script>
     bibleText = document.getElementById('bibleResponse').textContent;
     document.getElementById('inputTextBox').value = bibleText;
-
-
 </script>
     <?php
 }
@@ -220,6 +214,7 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && isset($_POST['BibleButton']))
 
 
 <ul>
+{{--  выводим значени таблицы typeresults--}}
 @foreach ($typeresults as $result)
         <li>{{ $result }}</li>
 @endforeach

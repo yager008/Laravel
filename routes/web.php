@@ -47,6 +47,10 @@ Route::post('/StoreResult', [TypeTestController::class, 'storeResult' ])->name('
 
 Route::get('/testTail', [TypeTestController::class, 'testTailwind' ])->name('TypeTestController.testTailwind');
 
+use App\Http\Controllers\TestController;
+Route::get('/TestController', [TestController::class, 'index' ])->name('TestController.index');
+
+
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

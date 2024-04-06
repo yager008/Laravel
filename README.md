@@ -12,3 +12,6 @@ TODO:
 
 1. Не работает залив скорости печати на sql сервер
 2. Надо будет вывести содержимое табличку typeresults на нашу страничу /Type
+
+!!!
+Example test is disabled (returns 302 instead of 200)
