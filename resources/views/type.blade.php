@@ -164,7 +164,7 @@ echo "last try speed: {$outputSpeed} s/m <br>";
     </div>
     <div>
         <br><br>
-        <p id="output"></p>
+        <p id="output" style="display: none"></p>
     </div>
     <div>
         <?php
