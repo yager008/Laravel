@@ -35,11 +35,11 @@ if(($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST['timer'])))
 if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox']))
 {
     ?>
-<script>
-    alert('hello');
-</script>
 
     <?php
+    if (isset($_POST['checkbox'])) {
+        App\Http\Controllers\TypeTestController::storeSavedText();
+    }
 
     $_SESSION['curTime'] = 0;
     $_SESSION['textToCompare'] = $_POST['inputTextBox'];
@@ -88,8 +88,13 @@ echo "last try speed: {$outputSpeed} s/m <br>";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Update Text</title>
+    <title>TypeDasher</title>
+
+    <link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon"/>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+
     <style>
         body {
             background-color: #1a202c;
@@ -118,6 +123,7 @@ echo "last try speed: {$outputSpeed} s/m <br>";
     </style>
 </head>
 <body>
+<img rel="icon" src="{{ URL::asset('favicon.ico') }}" type="image/x-icon"/>
 <div class="container-fluid d-flex flex-column align-items-center justify-content-center vh-100">
 
     <div>
@@ -212,14 +218,38 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && isset($_POST['BibleButton']))
 }
 ?>
 
-
 <ul>
-{{--  выводим значени таблицы typeresults--}}
+{{--  выводим значени таблицы typeresults --}}
 @foreach ($typeresults as $result)
         <li>{{ $result }}</li>
 @endforeach
 </ul>
 
+<hr class="border border-primary border-3 opacity-75">
+
+<ul>
+    {{--  выводим значени таблицы saved_texts --}}
+    @foreach ($saved_texts as $result)
+        <li>{{ $result }}</li>
+    <form method="POST">
+        @csrf
+        <button name="saved_text_btn_{{ $result['id'] }}" id="saved_text_btn_{{ $result['id'] }}" value="{{ $result['text'] }}" >{{ $result['text_name'] }}</button>
+        <?php
+            if (isset($_POST["saved_text_btn_{$result['id']}"]))
+            {
+                ?>
+            <script>
+                InButtonText = document.getElementById('saved_text_btn_{{ $result['id'] }}').value;
+                document.getElementById('inputTextBox').value = InButtonText;
+            </script>
+
+        <?php
+            }
+        ?>
+    </form>
+
+    @endforeach
+</ul>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

@@ -45,6 +45,9 @@ Route::get('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControl
 Route::post('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControllerPost.type');
 Route::post('/StoreResult', [TypeTestController::class, 'storeResult' ])->name('TypeTestController.store');
 
+Route::get('/StoreSavedText', [TypeTestController::class, 'storeSavedText' ])->name('TypeTestController.storeSavedText');
+Route::post('/StoreSavedText', [TypeTestController::class, 'storeSavedText' ])->name('TypeTestControllerPost.storeSavedText');
+
 Route::get('/testTail', [TypeTestController::class, 'testTailwind' ])->name('TypeTestController.testTailwind');
 
 use App\Http\Controllers\TestController;

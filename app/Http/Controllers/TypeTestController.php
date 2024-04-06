@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SavedText;
 use App\Models\Test;
 use App\Models\typeresult;
 use Illuminate\Http\Request;
@@ -25,7 +26,8 @@ class TypeTestController extends Controller
     public function type()
     {
         $typeresults = typeresult::all();
-        return view('type', compact('typeresults'));
+        $saved_texts = SavedText::all();
+        return view('type', compact('typeresults', 'saved_texts'));
     }
 
     public function storeResult()
@@ -42,6 +44,21 @@ class TypeTestController extends Controller
         ]);
 
         return redirect()->route("TypeTestControllerPost.type");
+    }
+
+    public static function storeSavedText()
+    {
+
+        $data = request()->validate([
+            "inputTextBox" => 'string'
+        ]);
+
+        SavedText::create([
+            'text' => $data['inputTextBox'],
+            'text_name' => 'also_default_text_name'
+        ]);
+
+        return redirect()->route("TypeTestController.type");
     }
 
     public function upload(Request $request)
