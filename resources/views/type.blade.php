@@ -160,7 +160,7 @@ echo "last try speed: {$outputSpeed} s/m <br>";
         </form>
     </div>
     <div>
-        <label for="textInput"></label><input type="text" id="textInput" class="form-control w-300 p-3 mw-100 " oninput="window.updateText()" style="width: 800px;">
+        <label for="textInput"></label><input type="text" id="textInput" class="form-control w-300 p-3 mw-100"  oninput="window.updateText()" style="width: 800px; ">
     </div>
     <div>
         <br><br>

@@ -20,8 +20,6 @@ Route::get('/', function () {
 use App\Http\Controllers\MyPlaceController;
 Route::get('/myPage', [ MyPlaceController::class, 'index' ]);
 
-use App\Http\Controllers\PostController;
-Route::get('/myPost', [ PostController::class, 'index' ]);
 
 use App\Http\Controllers\MainPageController;
 Route::get('/Main', [ MainPageController::class, 'index' ])->name('main');
@@ -52,6 +50,17 @@ Route::get('/testTail', [TypeTestController::class, 'testTailwind' ])->name('Typ
 
 use App\Http\Controllers\TestController;
 Route::get('/TestController', [TestController::class, 'index' ])->name('TestController.index');
+
+Route::group(['namespace'=>'App\Http\Controllers\Post'], function() {
+    Route::get('/posts', 'IndexController')->name('post.index');
+    Route::get('/create', 'CreateController')->name('post.create');
+    Route::post('/posts', 'StoreController')->name('post.store');
+    Route::get('/posts/{post}', 'ShowController')->name('post.show');
+    Route::get('/posts/{post}/edit', 'EditController')->name('post.edit');
+    Route::patch('/posts/{post}', 'UpdateController')->name('post.update');
+    Route::delete('/posts/{post}', 'DestroyController')->name('post.destroy');
+
+});
 
 
 Auth::routes();
