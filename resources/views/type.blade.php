@@ -18,19 +18,6 @@ if (!isset($_SESSION['curTime']))
 {
     $_SESSION['curTime'] = 0;
 }
-//if (!isset($_SESSION['lastTrySpeed']))
-//{
-//    $_SESSION['lastTrySpeed'] = 0;
-//}
-
-//if(($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST['timer'])))
-//{ // сетим prevTime и lastTrySpeed
-//    echo "<br>";
-//    echo "Text Length: " . strlen($_SESSION['textToCompare']) . "<br>";
-//    echo "Timer Value: " . $_POST['timer'] . "<br>";
-//    $_SESSION['prevTime'] = $_POST['timer'];
-//    $_SESSION['lastTrySpeed'] = sprintf("%.2f", strlen($_SESSION['textToCompare'])) / sprintf("%.2f",  $_POST['timer']);
-//}
 
 if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox']))
 {
@@ -57,10 +44,6 @@ else
 {
     echo "text to compare is empty <br>";
 }
-
-//$outputSpeed = sprintf("%.01f", $_SESSION['lastTrySpeed'] * 60);
-//echo "last try time: {$_SESSION['prevTime']} seconds <br>";
-//echo "last try speed: {$outputSpeed} s/m <br>";
 
 ?>
 
