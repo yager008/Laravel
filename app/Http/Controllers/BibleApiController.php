@@ -8,13 +8,14 @@ use App\Models\SavedText;
 use App\Models\typeresult;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Session;
 
 class BibleApiController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @return Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function index()
     {
@@ -33,9 +34,9 @@ class BibleApiController extends Controller
         $stringResponse = str_replace("?I", '? I', $stringResponse);
 
         $bibleApiResponse = $stringResponse;
-        $typeresults = typeresult::all();
-        $saved_texts = SavedText::all();
-        return view('type', compact('typeresults', 'saved_texts', 'bibleApiResponse'));
+        Session::put('bibleApiResponse', $bibleApiResponse);
+
+        return redirect()->route('TypeTestController.type');
 
 //        echo "<div id='bibleResponse' style='display: none'>{$stringResponse}</div>";
 //        //+ js before /body that sets inputTextBox ??

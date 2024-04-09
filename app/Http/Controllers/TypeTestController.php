@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\SavedText;
 use App\Models\Test;
-use App\Models\typeresult;
+use App\Models\type_result;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TypeTestController extends Controller
 {
@@ -25,9 +26,13 @@ class TypeTestController extends Controller
     }
     public function type()
     {
-        $typeresults = typeresult::all();
+        $bibleApiResponse = Session::get('bibleApiResponse');
+        Session::remove('bibleApiResponse');
+
+        $type_results = type_result::all();
         $saved_texts = SavedText::all();
-        return view('type', compact('typeresults', 'saved_texts'));
+        return view('type', compact('type_results', 'saved_texts', 'bibleApiResponse'));
+
     }
 
     public function storeResult()
@@ -38,7 +43,7 @@ class TypeTestController extends Controller
             "outputSpeed" => 'string'
         ]);
 
-        typeresult::create([
+        type_result::create([
             'result' => $data['outputSpeed'],
             'username' => 'amorous'
         ]);

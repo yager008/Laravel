@@ -63,7 +63,8 @@ Route::group(['namespace'=>'App\Http\Controllers\Post'], function() {
 
 use App\Http\Controllers\BibleApiController;
 //Route::get('/BibleApiRequest', 'BibleApiController')->name('BibleApiController.index');
-Route::get('/BibleApiRequest', [BibleApiController::class, 'index' ])->name('TestController.index');
+Route::get('/BibleApiRequest', [BibleApiController::class, 'index' ])->name('BibleApiController.index');
+Route::post('/BibleApiRequest', [BibleApiController::class, 'index' ])->name('BibleApiControllerPost.index');
 
 
 Auth::routes();

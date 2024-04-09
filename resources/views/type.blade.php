@@ -18,19 +18,19 @@ if (!isset($_SESSION['curTime']))
 {
     $_SESSION['curTime'] = 0;
 }
-if (!isset($_SESSION['lastTrySpeed']))
-{
-    $_SESSION['lastTrySpeed'] = 0;
-}
+//if (!isset($_SESSION['lastTrySpeed']))
+//{
+//    $_SESSION['lastTrySpeed'] = 0;
+//}
 
-if(($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST['timer'])))
-{ // сетим prevTime и lastTrySpeed
-    echo "<br>";
-    echo "Text Length: " . strlen($_SESSION['textToCompare']) . "<br>";
-    echo "Timer Value: " . $_POST['timer'] . "<br>";
-    $_SESSION['prevTime'] = $_POST['timer'];
-    $_SESSION['lastTrySpeed'] = sprintf("%.2f", strlen($_SESSION['textToCompare'])) / sprintf("%.2f",  $_POST['timer']);
-}
+//if(($_SERVER['REQUEST_METHOD'] === "POST" && !empty($_POST['timer'])))
+//{ // сетим prevTime и lastTrySpeed
+//    echo "<br>";
+//    echo "Text Length: " . strlen($_SESSION['textToCompare']) . "<br>";
+//    echo "Timer Value: " . $_POST['timer'] . "<br>";
+//    $_SESSION['prevTime'] = $_POST['timer'];
+//    $_SESSION['lastTrySpeed'] = sprintf("%.2f", strlen($_SESSION['textToCompare'])) / sprintf("%.2f",  $_POST['timer']);
+//}
 
 if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox']))
 {
@@ -46,27 +46,6 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox']))
     //+ js before /body
 }
 
-
-//можно впринципе просто отдельный форм роут сделать и перенести весь этот блок в контроллер -> -20 строк кода
-//if(($_SERVER['REQUEST_METHOD'] === "POST") && isset($_POST['BibleButton']))
-//{
-//    $response = Http::get('https://bible-api.com/?random=verse');
-//    $response = json_decode($response, true);
-//    $stringResponse =  $response['verses']['0']['text'];
-//    $stringResponse = str_replace("’", "'", $stringResponse);
-//    $stringResponse = str_replace("‘", "'", $stringResponse);
-//    $stringResponse = str_replace("“", '"', $stringResponse);
-//    $stringResponse = str_replace("”", '"', $stringResponse);
-//    $stringResponse = str_replace(".", '. ', $stringResponse);
-//    $stringResponse = str_replace(",", ', ', $stringResponse);
-//    $stringResponse = str_replace(";", '; ', $stringResponse);
-//    $stringResponse = str_replace("  ", ' ', $stringResponse);
-//    $stringResponse = str_replace("—", '-', $stringResponse);
-//    $stringResponse = str_replace("?I", '? I', $stringResponse);
-//    echo "<div id='bibleResponse' style='display: none'>{$stringResponse}</div>";
-//    //+ js before /body that sets inputTextBox ??
-//}
-
 if(!empty($_SESSION['textToCompare']))
 {
     echo "textToCompare: <div id='textToCompare'>{$_SESSION['textToCompare']}</div><br>";
@@ -79,9 +58,9 @@ else
     echo "text to compare is empty <br>";
 }
 
-$outputSpeed = sprintf("%.01f", $_SESSION['lastTrySpeed'] * 60);
-echo "last try time: {$_SESSION['prevTime']} seconds <br>";
-echo "last try speed: {$outputSpeed} s/m <br>";
+//$outputSpeed = sprintf("%.01f", $_SESSION['lastTrySpeed'] * 60);
+//echo "last try time: {$_SESSION['prevTime']} seconds <br>";
+//echo "last try speed: {$outputSpeed} s/m <br>";
 
 ?>
 
@@ -117,7 +96,7 @@ echo "last try speed: {$outputSpeed} s/m <br>";
     </div>
 
     <div>
-        <form method="POST" action="{{ route('TypeTestController.type') }}">
+        <form method="POST" action="{{ route('BibleApiController.index') }}">
         @csrf
             <label>
                 <button name="BibleButton" id="BibleButton">
@@ -125,13 +104,14 @@ echo "last try speed: {$outputSpeed} s/m <br>";
                 </button>
             </label>
         </form>
+
         <form method="POST">
         @csrf
             <label>
                 <input type="checkbox" title="should save text to savedtexts" name="checkbox" id="checkbox">
             </label>
             <label>
-                <input type="text" name="inputTextBox" id="inputTextBox" value="{{(isset($variable))?$variable:''}}">
+                <input type="text" name="inputTextBox" id="inputTextBox" value="{{(isset($bibleApiResponse))?$bibleApiResponse:''}}">
             </label>
             <label>
                 <input type="submit" name="submitButton">
@@ -187,53 +167,12 @@ if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox']))
 }
 ?>
 
-{{--// бля а зачем мы сообще тут джава скрипт используем НАДО УБРАТЬ--}}
-{{--if(($_SERVER['REQUEST_METHOD'] === "POST") && isset($_POST['BibleButton']))--}}
-{{--{ // сетим inputTextBox содержимым BibleResponse (невидимым дивом который сетится через api)--}}
-{{--    ?>--}}
-{{--<script>--}}
-{{--    bibleText = document.getElementById('bibleResponse').textContent;--}}
-{{--    document.getElementById('inputTextBox').value = bibleText;--}}
-{{--</script>--}}
-{{--    <?php--}}
-{{--}--}}
-{{--?>--}}
-
-<ul>
-{{--  выводим значени таблицы typeresults --}}
-@foreach ($typeresults as $result)
-        <li>{{ $result }}</li>
-@endforeach
-</ul>
+@include('type_components.type_results_table');
 
 <hr class="border border-primary border-3 opacity-75">
 
-<ul>
-    {{--  выводим значени таблицы saved_texts --}}
-    @foreach ($saved_texts as $result)
-        <li>{{ $result }}</li>
-    <form method="POST">
-        @csrf
-        <button name="saved_text_btn_{{ $result['id'] }}" id="saved_text_btn_{{ $result['id'] }}" value="{{ $result['text'] }}" >{{ $result['text_name'] }}</button>
-        <?php
-            if (isset($_POST["saved_text_btn_{$result['id']}"]))
-            {
-                ?>
-            <script>
-                InButtonText = document.getElementById('saved_text_btn_{{ $result['id'] }}').value;
-                document.getElementById('inputTextBox').value = InButtonText;
-            </script>
+@include('type_components.saved_texts')
 
-        <?php
-            }
-        ?>
-    </form>
-
-    @endforeach
-</ul>
-
-{{--бутстреп скрипты--}}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
 </body>
 </html>
