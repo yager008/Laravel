@@ -1,7 +1,5 @@
 export function textTyped()
-{
-    let CurTime = document.getElementById('timer').value
-    console.log("TEXT TYPED");
+{ // Когда допечатываем текст просто кликаем на кнопочку submitTimeButton
+    // let CurTime = document.getElementById('timer').value
     document.getElementById("submitTimeButton").click();
-    alert('fdafdaf');
 }

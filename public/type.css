@@ -1,0 +1,24 @@
+body {
+    background-color: #1a202c;
+    color: #9ca3af;
+    input[type="text"], textarea {
+
+        background-color : #577393;
+        border-color: #ef4444;
+    }
+    input[type="text"]:focus {
+
+        background-color : #577393;
+        border-color: #ef4444;
+    }
+
+    button {
+        background-color : #577393;
+        border-color: #ef4444;
+    }
+    input[type='submit'] {
+        background-color : #577393;
+        border-color: #ef4444;
+
+    }
+}

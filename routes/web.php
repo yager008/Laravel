@@ -59,8 +59,11 @@ Route::group(['namespace'=>'App\Http\Controllers\Post'], function() {
     Route::get('/posts/{post}/edit', 'EditController')->name('post.edit');
     Route::patch('/posts/{post}', 'UpdateController')->name('post.update');
     Route::delete('/posts/{post}', 'DestroyController')->name('post.destroy');
-
 });
+
+use App\Http\Controllers\BibleApiController;
+//Route::get('/BibleApiRequest', 'BibleApiController')->name('BibleApiController.index');
+Route::get('/BibleApiRequest', [BibleApiController::class, 'index' ])->name('TestController.index');
 
 
 Auth::routes();

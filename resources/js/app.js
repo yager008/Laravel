@@ -1,5 +1,5 @@
 import './bootstrap';
 import './test.js';
-import {updateText} from "./updateText.js";
+import {typeTextInputFieldUpdated} from "./typeTextInputFieldUpdated.js";
 
-window.updateText = updateText;
+window.typeTextInputFieldUpdated = typeTextInputFieldUpdated;
