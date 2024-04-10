@@ -1,8 +1,9 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
-use App\Models\SavedText;
+use App\Models\saved_text;
 use App\Models\Test;
 use App\Models\type_result;
 use Illuminate\Http\Request;
@@ -26,18 +27,23 @@ class TypeTestController extends Controller
     }
     public function type()
     {
+        Session::start();
+
+        $textToCompare = Session::get('textToCompare');
         $bibleApiResponse = Session::get('bibleApiResponse');
+        $bShouldStartTimer = Session::get('bShouldStartTimer');
+
         Session::remove('bibleApiResponse');
+        Session::remove('bShouldStartTimer');
 
         $type_results = type_result::all();
-        $saved_texts = SavedText::all();
-        return view('type', compact('type_results', 'saved_texts', 'bibleApiResponse'));
+        $saved_texts = saved_text::all();
 
+        return view('type', compact('type_results', 'saved_texts', 'bibleApiResponse', 'textToCompare', 'bShouldStartTimer'));
     }
 
-    public function storeResult()
+    public function storeResult(Request $request)
     {
-
         $data = request()->validate([
             "timer" => 'string',
             "outputSpeed" => 'string'
@@ -51,17 +57,26 @@ class TypeTestController extends Controller
         return redirect()->route("TypeTestControllerPost.type");
     }
 
-    public static function storeSavedText()
+    public static function storeSavedTextIfCheckboxIsOn(Request $request)
     {
+        Session::start();
 
         $data = request()->validate([
-            "inputTextBox" => 'string'
+            "inputTextBox" => 'string',
+            'checkbox' => 'required_with:checkbox',
         ]);
 
-        SavedText::create([
-            'text' => $data['inputTextBox'],
-            'text_name' => 'also_default_text_name'
-        ]);
+        if (isset($data['checkbox']))
+        {
+            saved_text::create([
+                'text' => $data['inputTextBox'],
+                'text_name' => 'also_default_text_name'
+            ]);
+        }
+
+        Session::put('textToCompare', $data['inputTextBox']);
+        Session::put('bShouldStartTimer', true);
+
 
         return redirect()->route("TypeTestController.type");
     }

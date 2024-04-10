@@ -1,5 +1,6 @@
 export function onSubmitInputTextBoxButtonClicked() {
     let timerCounter = 0;
+    alert('hello');
     window.setInterval(myTimer, 1000);
 
     function myTimer() {

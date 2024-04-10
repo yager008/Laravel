@@ -43,8 +43,8 @@ Route::get('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControl
 Route::post('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControllerPost.type');
 Route::post('/StoreResult', [TypeTestController::class, 'storeResult' ])->name('TypeTestController.store');
 
-Route::get('/StoreSavedText', [TypeTestController::class, 'storeSavedText' ])->name('TypeTestController.storeSavedText');
-Route::post('/StoreSavedText', [TypeTestController::class, 'storeSavedText' ])->name('TypeTestControllerPost.storeSavedText');
+Route::get('/StoreSavedText', [TypeTestController::class, 'storeSavedTextIfCheckboxIsOn' ])->name('TypeTestController.storeSavedTextIfCheckBoxIsOn');
+Route::post('/StoreSavedText', [TypeTestController::class, 'storeSavedTextIfCheckboxIsOn' ])->name('TypeTestControllerPost.storeSavedTextIfCheckBoxIsOn');
 
 Route::get('/testTail', [TypeTestController::class, 'testTailwind' ])->name('TypeTestController.testTailwind');
 

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('typeresults', function (Blueprint $table) {
+        Schema::create('type_results', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->float('result');

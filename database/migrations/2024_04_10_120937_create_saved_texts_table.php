@@ -12,7 +12,7 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('saved_texts.blade.php', function (Blueprint $table) {
+        Schema::create('saved_texts', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->longText('text');
@@ -22,6 +22,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('saved_texts.blade.php');
+        Schema::dropIfExists('saved_texts');
     }
 };
