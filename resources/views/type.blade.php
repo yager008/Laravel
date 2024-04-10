@@ -4,33 +4,19 @@
 
 //Session set
 session_start();
+
 if (!isset($_SESSION['textToCompare']))
 {
     $_SESSION['textToCompare'] = '';
 }
 
-if (!isset($_SESSION['prevTime']))
-{
-    $_SESSION['prevTime'] = 0;
-}
-
-if (!isset($_SESSION['curTime']))
-{
-    $_SESSION['curTime'] = 0;
-}
-
 if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox']))
 {
-    ?>
-
-    <?php
     if (isset($_POST['checkbox'])) {
         App\Http\Controllers\TypeTestController::storeSavedText();
     }
 
-    $_SESSION['curTime'] = 0;
     $_SESSION['textToCompare'] = $_POST['inputTextBox'];
-    //+ js before /body
 }
 
 if(!empty($_SESSION['textToCompare']))
@@ -97,12 +83,13 @@ else
                 <input type="text" name="inputTextBox" id="inputTextBox" value="{{(isset($bibleApiResponse))?$bibleApiResponse:''}}">
             </label>
             <label>
-                <input type="submit" name="submitButton">
+                <input type="submit" name="submitInputTextBoxButton" onclick="window.onSubmitInputTextBoxButtonClicked()">
             </label>
         </form>
     </div>
     <div>
-        <label for="typeTextInputField"></label><input type="text" id="typeTextInputField" class="form-control w-300 p-3 mw-100" oninput="window.typeTextInputFieldUpdated()" style="width: 800px; ">
+        <label for="typeTextInputField"></label>
+        <input type="text" id="typeTextInputField" class="form-control w-300 p-3 mw-100" oninput="window.typeTextInputFieldUpdated()" style="width: 800px; ">
     </div>
     <div>
         <br><br>
@@ -128,27 +115,6 @@ else
         bool
     </div>
 </div>
-
-<?php
-if(($_SERVER['REQUEST_METHOD'] === "POST") && !empty($_POST['inputTextBox']))
-{ //Запускаем таймер который каждую секунду апдейтит timer value, и output speed, фокусим на typeTextInputField
-    ?>
-<script>
-    let timerCounter = 0;
-    window.setInterval(myTimer, 1000);
-    function myTimer() {
-        timerCounter++;
-        let fullTextLength = document.getElementById('lenOfFullText').innerText;
-
-        document.getElementById('timer').value = timerCounter.toString();
-        document.getElementById('outputSpeed').value = fullTextLength / timerCounter.toString() * 60;
-    }
-
-    document.getElementById('typeTextInputField').focus();
-</script>
-    <?php
-}
-?>
 
 @include('type_components.type_results_table');
 
