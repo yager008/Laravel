@@ -14,7 +14,7 @@ echo "</div>";
 
     //сетим таймер
 if (isset($bShouldStartTimer) && $bShouldStartTimer) {
-    ?>
+?>
 <script>
     let timerCounter = 0;
     window.setInterval(myTimer, 1000);
@@ -26,6 +26,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     }
     document.getElementById('typeTextInputField').focus();
 </script>
+
 <?php
 }
 ?>
@@ -70,7 +71,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             </label>
         </form>
 
-        <form method="POST" action="{{ route('TypeTestController.storeSavedTextIfCheckBoxIsOn') }}">
+        <form autocomplete="off" method="POST" action="{{ route('TypeTestController.storeSavedTextIfCheckBoxIsOn') }}">
             @csrf
             <label>
                 <input type="checkbox" title="should save text to saved_texts" name="checkbox" id="checkbox">
@@ -88,7 +89,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     </div>
     <div>
         <label for="typeTextInputField"></label>
-        <input type="text" id="typeTextInputField" class="form-control w-300 p-3 mw-100"
+        <input autocomplete="off" type="text" id="typeTextInputField" class="form-control w-300 p-3 mw-100"
                oninput="window.typeTextInputFieldUpdated()" style="width: 800px; ">
     </div>
     <div>
