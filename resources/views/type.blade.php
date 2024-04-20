@@ -1,7 +1,7 @@
 @vite(['resources/js/app.js'])
 
 <?php
-    //сетим див
+    //сетим див с текстом из апи
 if (!empty($textToCompare)) {
     echo "<div style='display: none';>";
     echo "textToCompare: <div id='textToCompare'>{$textToCompare}</div><br>";
@@ -12,6 +12,7 @@ if (!empty($textToCompare)) {
 }
 echo "</div>";
 
+    //сетим таймер
 if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     ?>
 <script>
