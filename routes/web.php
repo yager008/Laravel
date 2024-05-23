@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,12 +15,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('/Type');
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 use App\Http\Controllers\MyPlaceController;
 Route::get('/myPage', [ MyPlaceController::class, 'index' ]);
-
 
 use App\Http\Controllers\MainPageController;
 Route::get('/Main', [ MainPageController::class, 'index' ])->name('main');
@@ -66,7 +76,4 @@ use App\Http\Controllers\BibleApiController;
 Route::get('/BibleApiRequest', [BibleApiController::class, 'index' ])->name('BibleApiController.index');
 Route::post('/BibleApiRequest', [BibleApiController::class, 'index' ])->name('BibleApiControllerPost.index');
 
-
-Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+require __DIR__.'/auth.php';
