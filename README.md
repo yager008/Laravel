@@ -14,6 +14,9 @@ TODO:
 2. Example test is disabled (now works with quickfix that returns 302 instead of 200)
 3. Добавить выбор языка ввода (если вводишь например текст на немецком то ss будет превращаться с спце букву a^o в другую букву )
 
+Docker setup:
+
+
 name changed
 !!!
 Example test 
