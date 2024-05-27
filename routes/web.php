@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TypeTestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Route::get('/', [TypeTestController::class, 'welcome'])->name('welcome');
+
+//Route::middleware(['check.authenticated'])->group(function () {
+//    Route::get('/', [TypeTestController::class, 'type'])->name('TypeTestController.type');
+//    // Other routes that require authentication
+//});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -31,12 +37,14 @@ Route::middleware('auth')->group(function () {
 use App\Http\Controllers\MyPlaceController;
 Route::get('/myPage', [ MyPlaceController::class, 'index' ]);
 
+
+
+
 use App\Http\Controllers\MainPageController;
 Route::get('/Main', [ MainPageController::class, 'index' ])->name('main');
 Route::get('/Main/page1', [ MainPageController::class, 'page1' ])->name('page1');
 Route::get('/Main/page2', [ MainPageController::class, 'page2' ])->name('page2');
 
-use App\Http\Controllers\TypeTestController;
 Route::get('/Test', [TypeTestController::class, 'index' ])->name('typeTestGet');
 Route::post('/Test', [TypeTestController::class, 'index' ])->name('typeTestPost');
 
@@ -49,8 +57,9 @@ Route::get('/TestGit', [TypeTestController::class, 'git' ])->name('typeTestGit')
 
 Route::get('/TestLinux', [TypeTestController::class, 'linux' ])->name('typeTestLinux');
 
-Route::get('/Type', [TypeTestController::class, 'type' ])->name('TypeTestController.type');
-Route::post('/Type', [TypeTestController::class, 'type' ])->name('TypeTestControllerPost.type');
+//Route::get('/Type', [TypeTestController::class, 'type' ])->name('TypeTestController.type');
+Route::get('/dashboard', [TypeTestController::class, 'type' ])->name('TypeTestController.type');
+Route::post('/dashboard', [TypeTestController::class, 'type' ])->name('TypeTestControllerPost.type');
 Route::post('/StoreResult', [TypeTestController::class, 'storeResult' ])->name('TypeTestController.store');
 
 Route::get('/StoreSavedText', [TypeTestController::class, 'storeSavedTextIfCheckboxIsOn' ])->name('TypeTestController.storeSavedTextIfCheckBoxIsOn');

@@ -1,6 +1,9 @@
 @vite(['resources/js/app.js'])
 
 <?php
+//    echo $name['name'];
+//    echo "<br>";
+
     //сетим див с текстом из апи
 if (!empty($textToCompare)) {
     echo "<div style='display: none';>";
@@ -47,6 +50,15 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 <script>
 
 </script>
+
+
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
+    </x-slot>
+</x-app-layout>
 
 <div class="container-fluid d-flex flex-column align-items-center justify-content-center vh-100">
 

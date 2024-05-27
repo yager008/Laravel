@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 use App\Models\saved_text;
@@ -36,10 +35,15 @@ class TypeTestController extends Controller
         Session::remove('bibleApiResponse');
         Session::remove('bShouldStartTimer');
 
-        $type_results = type_result::all();
+
+       // $type_results = type_result::pluck('result')->toArray();
+        $type_results = type_result::where('username', auth()->user()['name'])->pluck('result')->toArray();
+
         $saved_texts = saved_text::all();
 
-        return view('type', compact('type_results', 'saved_texts', 'bibleApiResponse', 'textToCompare', 'bShouldStartTimer'));
+        $name = auth()->user();
+
+        return view('type', compact('type_results', 'saved_texts', 'bibleApiResponse', 'textToCompare', 'bShouldStartTimer', 'name'));
     }
 
     public function storeResult(Request $request)
@@ -51,7 +55,7 @@ class TypeTestController extends Controller
 
         type_result::create([
             'result' => $data['outputSpeed'],
-            'username' => 'amorous'
+            'username' => auth()->user()['name']
         ]);
 
         return redirect()->route("TypeTestControllerPost.type");
@@ -131,6 +135,11 @@ class TypeTestController extends Controller
     public function testTailwind()
     {
         return view('testTailwind');
+    }
+
+    public function welcome()
+    {
+        return view('welcome');
     }
 }
 
