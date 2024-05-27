@@ -9,12 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
     public function up(): void
     {
-        Schema::table('type_results', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id'); // Add the user_id column
+        Schema::create('type_results', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id'); // Define the user_id column first
+            $table->float('result');
+            $table->timestamps();
+            $table->text("username");
 
-            // Add the foreign key constraint
+            // Define the foreign key constraint
             $table->foreign('user_id')
                 ->references('id')->on('users')
                 ->onDelete('cascade');
@@ -26,12 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('type_results', function (Blueprint $table) {
-            // Drop the foreign key constraint
-            $table->dropForeign(['user_id']);
-
-            // Drop the user_id column
-            $table->dropColumn('user_id');
-        });
+        Schema::dropIfExists('type_results');
     }
 };

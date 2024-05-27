@@ -124,7 +124,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     </div>
 </div>
 
-{{--@include('type_components.type_results_table');--}}
+@include('type_components.type_results_table');
 
 {{--<hr class="border border-primary border-3 opacity-75">--}}
 

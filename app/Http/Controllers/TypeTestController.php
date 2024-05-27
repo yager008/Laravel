@@ -38,7 +38,7 @@ class TypeTestController extends Controller
 
 
        // $type_results = type_result::pluck('result')->toArray();
-        $type_results = type_result::where('username', auth::user()['name'])
+        $type_results = type_result::where('user_id', auth::user()['id'])
             ->get(['updated_at', 'result']);
 
         // Transform the results into an associative array
@@ -65,8 +65,18 @@ class TypeTestController extends Controller
 
         type_result::create([
             'result' => $data['outputSpeed'],
-            'username' => auth()->user()['name']
+            'username' => auth()->user()['name'],
+            'user_id' => auth()->user()['id']
         ]);
+
+        return redirect()->route("TypeTestControllerPost.type");
+    }
+
+    public function deleteSavedText(Request $request)
+    {
+        $buttonValue = $request->request->get('saved_text_delete_btn');
+
+        saved_text::destroy($buttonValue);
 
         return redirect()->route("TypeTestControllerPost.type");
     }
@@ -84,7 +94,8 @@ class TypeTestController extends Controller
         {
             saved_text::create([
                 'text' => $data['inputTextBox'],
-                'text_name' => 'also_default_text_name'
+                'text_name' => 'also_default_text_name',
+                'user_id' => auth()->user()['id']
             ]);
         }
 
