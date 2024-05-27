@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
     <div class="chart-container" style="position: relative; height: 40vh;">
-        <canvas id="myChart" style="width: 500vh; height: 100vh"></canvas>
+        <canvas id="myChart" style="width: 430vh; height: 100vh"></canvas>
     </div>
 </div>
 
