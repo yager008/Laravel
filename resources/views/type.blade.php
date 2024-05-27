@@ -113,15 +113,20 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     </div>
 </div>
 
-@include('type_components.type_results_table');
+{{--@include('type_components.type_results_table');--}}
 
-<hr class="border border-primary border-3 opacity-75">
+{{--<hr class="border border-primary border-3 opacity-75">--}}
+
+@include('type_components.chart')
 
 @include('type_components.saved_texts')
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+<div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+
+
 </body>
 </html>
 

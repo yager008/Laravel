@@ -2,6 +2,7 @@ import './bootstrap';
 import Alpine from 'alpinejs';
 import './bootstrap';
 import './test.js';
+import './chart.js'
 import {typeTextInputFieldUpdated} from "./typeTextInputFieldUpdated.js";
 import {onSubmitInputTextBoxButtonClicked} from "./onSubmitInputTextBoxButtonClicked.js";
 

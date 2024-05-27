@@ -6,6 +6,7 @@ use App\Models\saved_text;
 use App\Models\Test;
 use App\Models\type_result;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class TypeTestController extends Controller
@@ -37,13 +38,22 @@ class TypeTestController extends Controller
 
 
        // $type_results = type_result::pluck('result')->toArray();
-        $type_results = type_result::where('username', auth()->user()['name'])->pluck('result')->toArray();
+        $type_results = type_result::where('username', auth::user()['name'])
+            ->get(['updated_at', 'result']);
+
+        // Transform the results into an associative array
+        $resultsArray = $type_results->map(function ($item) {
+            return [
+                'updated_at' => date('H:i d.m.Y', $item->updated_at->timestamp),
+                'result' => $item->result,
+            ];
+        })->toArray();
 
         $saved_texts = saved_text::all();
 
         $name = auth()->user();
 
-        return view('type', compact('type_results', 'saved_texts', 'bibleApiResponse', 'textToCompare', 'bShouldStartTimer', 'name'));
+        return view('type', compact('resultsArray', 'saved_texts', 'bibleApiResponse', 'textToCompare', 'bShouldStartTimer', 'name'));
     }
 
     public function storeResult(Request $request)
