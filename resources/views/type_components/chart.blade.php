@@ -90,15 +90,15 @@
 
 
         const myData = {
-            labels: Object.keys(newData), // Extract dates as labels
+            labels: newData.map(row => row.date),
             datasets: [{
-                label: 'Daily Arithmetic Mean Typing Speed',
+                label: 'all typing results',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
                 hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
                 hoverBorderColor: 'rgba(255, 99, 132, 1)',
-                data: Object.values(newData).map(dayData => dayData.mean.toFixed(2)) // Extract mean speeds as data
+                data: newData.map(row => row.result)
             }]
         };
 
