@@ -50,6 +50,8 @@ class TypeTestController extends Controller
         })->toArray();
 
         $saved_texts = saved_text::all();
+        $saved_texts = saved_text::where('user_id', auth::user()['id'])
+            ->get(['id', 'text', 'text_name']);
 
         $name = auth()->user();
 
