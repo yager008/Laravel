@@ -17,6 +17,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const data = {!! json_encode($resultsArray) !!}; // Convert PHP array to JavaScript object
+        console.log("amogus");
 
         const myData = {
             labels: data.map(row => row.updated_at),
@@ -43,7 +44,7 @@
             }
         };
         // Call the createChart function
-        createChart('myChart', myData, chartOptions);
+        window.createChart('myChart', myData, chartOptions);
     });
 </script>
 
@@ -114,6 +115,6 @@
             }
         };
         // Call the createChart function
-        createChart('dailyChart', myData, chartOptions);
+        window.createChart('dailyChart', myData, chartOptions);
     });
 </script>
