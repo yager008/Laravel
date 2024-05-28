@@ -80,6 +80,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
                    value="{{ strlen($textToCompare)}}" readonly style="">
             <lable for="timer"></lable>
             <input type="text" id="timer" name="timer" readonly style="">
+            <input type="text" id="numberOfMistakes" name="numberOfMistakes" readonly style="">
             <input type="submit" id="submitTimeButton" name="submitTimeButton" style="visibility: hidden">
         </form>
     </div>

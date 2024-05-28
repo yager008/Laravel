@@ -6,7 +6,7 @@
         @csrf
         <button name="saved_text_open_btn" id="saved_text_btn_{{ $result['id'] }}" value="{{ $result['text'] }}" >{{ $result['text_name'] }}</button>
         <?php
-            if (isset($_POST["saved_text_btn_{$result['id']}"]))
+            if (isset($_POST["saved_text_open_btn"]))
             {
                 ?>
             <script>
@@ -17,6 +17,8 @@
             }
         ?>
     </form>
+
+
     <form method="POST" action="{{ route('TypeTestControllerPost.deleteSavedText') }}">
         @csrf
         <button name="saved_text_delete_btn" id="saved_text_delete_btn_{{ $result['id'] }}" value="{{ $result['id'] }}" >delete</button>

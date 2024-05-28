@@ -9,13 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-
     public function up(): void
     {
         Schema::create('type_results', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id'); // Define the user_id column first
             $table->timestamps();
             $table->float('result');
+            $table->float('number_of_mistakes');
+            $table->text("username");
 
             $table->foreign('user_id')
                 ->references('id')->on('users')

@@ -29,7 +29,17 @@
                 hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
                 hoverBorderColor: 'rgba(255, 99, 132, 1)',
                 data: data.map(row => row.result)
-            }]
+            },
+            {
+                label: 'number of mistakes',
+                backgroundColor: 'rgba(172,255,99,0.2)',
+                borderColor: 'rgb(0,255,12)',
+                borderWidth: 1,
+                hoverBackgroundColor: 'rgba(255, 99, 132, 0.4)',
+                hoverBorderColor: 'rgba(255, 99, 132, 1)',
+                data: data.map(row => row.number_of_mistakes)
+            }
+            ]
         };
 
         const chartOptions = {
@@ -58,13 +68,8 @@
 
         console.log(data);
 
-        // let newData = {};
-        //
-        // data.forEach(row => {
-        //
-        // });
-
         let newData = {};
+        let mistakesData = {};
 
         data.forEach(row => {
             const { updated_at, result } = row;
@@ -79,6 +84,22 @@
 
             // Accumulate sum and count
             newData[updated_at].sum += result;
+            newData[updated_at].count++;
+        });
+
+        data.forEach(row => {
+            const { updated_at, number_of_mistakes } = row;
+
+            if (![updated_at]) {
+                newData[updated_at] = {
+                    sum: 0,
+                    count: 0,
+                    mean: 0
+                };
+            }
+
+            // Accumulate sum and count
+            newData[updated_at].sum += number_of_mistakes;
             newData[updated_at].count++;
         });
 

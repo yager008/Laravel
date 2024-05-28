@@ -39,13 +39,14 @@ class TypeTestController extends Controller
 
        // $type_results = type_result::pluck('result')->toArray();
         $type_results = type_result::where('user_id', auth::user()['id'])
-            ->get(['updated_at', 'result']);
+            ->get(['updated_at', 'result', 'number_of_mistakes']);
 
         // Transform the results into an associative array
         $resultsArray = $type_results->map(function ($item) {
             return [
                 'updated_at' => date('H:i d.m.Y', $item->updated_at->timestamp),
                 'result' => $item->result,
+                'number_of_mistakes' => $item->number_of_mistakes
             ];
         })->toArray();
 
@@ -62,13 +63,15 @@ class TypeTestController extends Controller
     {
         $data = request()->validate([
             "timer" => 'string',
+            "numberOfMistakes" => 'string',
             "outputSpeed" => 'string'
         ]);
 
         type_result::create([
             'result' => $data['outputSpeed'],
             'username' => auth()->user()['name'],
-            'user_id' => auth()->user()['id']
+            'user_id' => auth()->user()['id'],
+            'number_of_mistakes' => $data['numberOfMistakes']
         ]);
 
         return redirect()->route("TypeTestControllerPost.type");
