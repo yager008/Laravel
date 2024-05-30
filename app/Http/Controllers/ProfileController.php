@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\saved_text;
+use App\Models\type_result;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +58,22 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function reset(Request $request): RedirectResponse
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        saved_text::where('user_id', $user->id)->delete();
+
+        // Delete records from type_results table
+        type_result::where('user_id', $user->id)->delete();
+
+        return Redirect::to('/dashboard');
     }
 
     public function changeTimeZone(Request $request): RedirectResponse
