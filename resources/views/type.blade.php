@@ -95,6 +95,15 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             </label>
         </form>
 
+        <form method="POST" action="{{ route('LoremApiController.index') }}">
+            @csrf
+            <label>
+                <button name="LoremButton" id="LoremButton">
+                    LoremButton
+                </button>
+            </label>
+        </form>
+
         <form autocomplete="off" method="POST" action="{{ route('TypeTestController.storeSavedTextIfCheckBoxIsOn') }}">
             @csrf
             <label>
@@ -103,7 +112,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 
             <label>
                 <input type="text" name="inputTextBox" id="inputTextBox"
-                       value="{{(isset($bibleApiResponse))?$bibleApiResponse:''}}">
+                       value="{{(isset($apiResponse))?$apiResponse:''}}">
             </label>
 
             <label>

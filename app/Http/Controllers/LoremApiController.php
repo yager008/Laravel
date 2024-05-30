@@ -2,28 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Post;
-use App\Models\SavedText;
-use App\Models\typeresult;
-use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Session;
 
-class BibleApiController extends Controller
+class LoremApiController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function index()
     {
+        $ch_req = curl_init("https://api.api-ninjas.com/v1/loremipsum?paragraphs=1?max_length=1");
+        curl_setopt($ch_req, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch_req, CURLOPT_HTTPHEADER, [
+            'X-Api-Key: gVnLRxodHjnwJFa+AHSf0A==Q6ghu5Rq6TwJDkIq'
+        ]);
 
-        $response = Http::get('https://bible-api.com/?random=verse');
-
+        $response = curl_exec($ch_req);
         $response = json_decode($response, true);
-        $stringResponse =  $response['verses']['0']['text'];
+        $stringResponse =  $response['text'];
         $stringResponse = str_replace("’", "'", $stringResponse);
         $stringResponse = str_replace("‘", "'", $stringResponse);
         $stringResponse = str_replace("“", '"', $stringResponse);
@@ -35,15 +30,11 @@ class BibleApiController extends Controller
         $stringResponse = str_replace("—", '-', $stringResponse);
         $stringResponse = str_replace("?I", '? I', $stringResponse);
 
-
         echo "<div id='loremResponse' >{$stringResponse}</div>";
 
-        $bibleApiResponse = $stringResponse;
-        Session::put('bibleApiResponse', $bibleApiResponse);
+        $loremApiResponse = $stringResponse;
+        Session::put('loremApiResponse', $loremApiResponse);
 
         return redirect()->route('TypeTestController.type');
-
-//        echo "<div id='bibleResponse' style='display: none'>{$stringResponse}</div>";
-//        //+ js before /body that sets inputTextBox ??
     }
 }

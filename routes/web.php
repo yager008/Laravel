@@ -52,6 +52,7 @@ Route::get('/Upload', [TypeTestController::class, 'upload' ])->name('typeTestUpl
 Route::get('/Create', [TypeTestController::class, 'create' ])->name('typeTestCreate');
 
 Route::get('/Bible', [TypeTestController::class, 'bible' ])->name('typeTest.bible');
+Route::get('/Lorem', [TypeTestController::class, 'lorem' ])->name('typeTest.lorem');
 
 Route::get('/TestGit', [TypeTestController::class, 'git' ])->name('typeTestGit');
 
@@ -82,8 +83,11 @@ Route::group(['namespace'=>'App\Http\Controllers\Post'], function() {
 });
 
 use App\Http\Controllers\BibleApiController;
-//Route::get('/BibleApiRequest', 'BibleApiController')->name('BibleApiController.index');
 Route::get('/BibleApiRequest', [BibleApiController::class, 'index' ])->name('BibleApiController.index');
 Route::post('/BibleApiRequest', [BibleApiController::class, 'index' ])->name('BibleApiControllerPost.index');
+
+use App\Http\Controllers\LoremApiController;
+Route::get('/LoremApiRequest', [LoremApiController::class, 'index' ])->name('LoremApiController.index');
+Route::post('/LoremApiRequest', [LoremApiController::class, 'index' ])->name('LoremApiControllerPost.index');
 
 require __DIR__.'/auth.php';

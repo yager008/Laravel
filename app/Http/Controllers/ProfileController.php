@@ -57,4 +57,11 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    public function changeTimeZone(Request $request): RedirectResponse
+    {
+
+
+        return Redirect::to('/');
+    }
 }

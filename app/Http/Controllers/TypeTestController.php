@@ -31,9 +31,22 @@ class TypeTestController extends Controller
 
         $textToCompare = Session::get('textToCompare');
         $bibleApiResponse = Session::get('bibleApiResponse');
+        $loremApiResponse = Session::get('loremApiResponse');
+        $apiResponse = '';
+
+        if(isset($bibleApiResponse)) {
+            $apiResponse = $bibleApiResponse;
+        }
+        else {
+            $apiResponse = $loremApiResponse;
+        }
+
+
+
         $bShouldStartTimer = Session::get('bShouldStartTimer');
 
         Session::remove('bibleApiResponse');
+        Session::remove('loremApiResponse');
         Session::remove('bShouldStartTimer');
 
 
@@ -56,7 +69,7 @@ class TypeTestController extends Controller
 
         $name = auth()->user();
 
-        return view('type', compact('resultsArray', 'saved_texts', 'bibleApiResponse', 'textToCompare', 'bShouldStartTimer', 'name'));
+        return view('type', compact('resultsArray', 'saved_texts', 'apiResponse', 'textToCompare', 'bShouldStartTimer', 'name'));
     }
 
     public function storeResult(Request $request)
@@ -155,6 +168,36 @@ class TypeTestController extends Controller
             $stringResponse = str_replace(";", '; ', $stringResponse);
             $stringResponse = str_replace("  ", ' ', $stringResponse);
             echo "<div id='bibleResponse' >{$stringResponse}</div>";
+        }
+    }
+
+    public function lorem()
+    {
+        $ch_req = curl_init("https://api.api-ninjas.com/v1/loremipsum?paragraphs=2");
+        curl_setopt($ch_req, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch_req, CURLOPT_HTTPHEADER, [
+            'X-Api-Key: gVnLRxodHjnwJFa+AHSf0A==Q6ghu5Rq6TwJDkIq'
+        ]);
+
+        $response = curl_exec($ch_req);
+        $response = json_decode($response, true);
+
+        $err = curl_error($ch_req);
+        curl_close($ch_req);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            $stringResponse = $response['text'];
+            $stringResponse = str_replace("’", "'", $stringResponse);
+            $stringResponse = str_replace("‘", "'", $stringResponse);
+            $stringResponse = str_replace("“", '"', $stringResponse);
+            $stringResponse = str_replace("”", '"', $stringResponse);
+            $stringResponse = str_replace(".", '. ', $stringResponse);
+            $stringResponse = str_replace(",", ', ', $stringResponse);
+            $stringResponse = str_replace(";", '; ', $stringResponse);
+            $stringResponse = str_replace("  ", ' ', $stringResponse);
+            echo "<div id='loremResponse' >{$stringResponse}</div>";
         }
     }
 
