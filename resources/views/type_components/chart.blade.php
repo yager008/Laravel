@@ -8,11 +8,11 @@
     </div>
 </div>
 
-<div class="container-fluid ">
-    <div class="chart-container" style="position: relative; height: 40vh;">
-        <canvas id="dailyChart" style="width: 500vh; height: 100vh; padding-left: 40px"></canvas>
-    </div>
-</div>
+{{--<div class="container-fluid ">--}}
+{{--    <div class="chart-container" style="position: relative; height: 40vh;">--}}
+{{--        <canvas id="dailyChart" style="width: 500vh; height: 100vh; padding-left: 40px"></canvas>--}}
+{{--    </div>--}}
+{{--</div>--}}
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app['request']->setTrustedHosts([
+            'example.com',            // Add your main domain
+            'www.example.com',        // Add the www version of your domain if applicable
+            'subdomain.example.com',  // Add any subdomains if needed
+            '127.0.0.1',
+        ]);
     }
 }
