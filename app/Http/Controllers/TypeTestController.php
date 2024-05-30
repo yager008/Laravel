@@ -6,6 +6,7 @@ use App\Models\saved_text;
 use App\Models\Test;
 use App\Models\type_result;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -41,14 +42,11 @@ class TypeTestController extends Controller
             $apiResponse = $loremApiResponse;
         }
 
-
-
         $bShouldStartTimer = Session::get('bShouldStartTimer');
 
         Session::remove('bibleApiResponse');
         Session::remove('loremApiResponse');
         Session::remove('bShouldStartTimer');
-
 
        // $type_results = type_result::pluck('result')->toArray();
         $type_results = type_result::where('user_id', auth::user()['id'])
@@ -62,6 +60,7 @@ class TypeTestController extends Controller
                 'number_of_mistakes' => $item->number_of_mistakes
             ];
         })->toArray();
+//                'updated_at' => Carbon::parse($item->updated_at)->timezone(auth()->user()['timezone'])->toDateTimeString(),
 
 //        $saved_texts = saved_text::all();
         $saved_texts = saved_text::where('user_id', auth::user()['id'])
@@ -74,6 +73,16 @@ class TypeTestController extends Controller
 
     public function storeResult(Request $request)
     {
+        $user = auth()->user();
+
+        $timezone = $user['timezone'];
+
+        $utcTime = Carbon::now('UTC');
+
+        $userTime = $utcTime->setTimezone($timezone);
+
+        $formattedTime = $userTime->format('Y-m-d H:i:s');
+
         $data = request()->validate([
             "timer" => 'string',
             "numberOfMistakes" => 'string',
@@ -84,7 +93,8 @@ class TypeTestController extends Controller
             'result' => $data['outputSpeed'],
             'username' => auth()->user()['name'],
             'user_id' => auth()->user()['id'],
-            'number_of_mistakes' => $data['numberOfMistakes']
+            'number_of_mistakes' => $data['numberOfMistakes'],
+            'user_local_time' => $formattedTime
         ]);
 
         return redirect()->route("TypeTestControllerPost.type");

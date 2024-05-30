@@ -4,6 +4,8 @@
 //    echo $name['name'];
 //    echo "<br>";
 
+echo auth()->user()['timezone'];
+
     //сетим див с текстом из апи
 if (!empty($textToCompare)) {
     echo "<div style='display: none';>";
