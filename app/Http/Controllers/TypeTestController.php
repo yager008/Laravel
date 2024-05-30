@@ -55,12 +55,13 @@ class TypeTestController extends Controller
         // Transform the results into an associative array
         $resultsArray = $type_results->map(function ($item) {
             return [
-                'updated_at' => date('H:i d.m.Y', $item->updated_at->timestamp),
+//                'updated_at' => date('H:i:s d.m.Y', $item->updated_at->timestamp),
+                'updated_at' => Carbon::parse($item->updated_at)->timezone(auth()->user()['timezone'])->toDateTimeString(),
                 'result' => $item->result,
                 'number_of_mistakes' => $item->number_of_mistakes
             ];
         })->toArray();
-//                'updated_at' => Carbon::parse($item->updated_at)->timezone(auth()->user()['timezone'])->toDateTimeString(),
+
 
 //        $saved_texts = saved_text::all();
         $saved_texts = saved_text::where('user_id', auth::user()['id'])
@@ -73,28 +74,31 @@ class TypeTestController extends Controller
 
     public function storeResult(Request $request)
     {
-        $user = auth()->user();
-
-        $timezone = $user['timezone'];
-
-        $utcTime = Carbon::now('UTC');
-
-        $userTime = $utcTime->setTimezone($timezone);
-
-        $formattedTime = $userTime->format('Y-m-d H:i:s');
+//        $user = auth()->user();
+//
+//        $timezone = $user['timezone'];
+//
+//        $utcTime = Carbon::now('UTC');
+//
+//        $userTime = $utcTime->setTimezone($timezone);
+//
+//        $formattedTime = $userTime->format('Y-m-d H:i:s');
 
         $data = request()->validate([
             "timer" => 'string',
-            "numberOfMistakes" => 'string',
+            "numberOfMistakes" => 'nullable|string',
             "outputSpeed" => 'string'
         ]);
+
+        $data['numberOfMistakes'] = $data['numberOfMistakes'] ?? '0';
+
 
         type_result::create([
             'result' => $data['outputSpeed'],
             'username' => auth()->user()['name'],
             'user_id' => auth()->user()['id'],
             'number_of_mistakes' => $data['numberOfMistakes'],
-            'user_local_time' => $formattedTime
+            'user_local_time' => 'time'
         ]);
 
         return redirect()->route("TypeTestControllerPost.type");
