@@ -83,6 +83,9 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             <lable for="timer"></lable>
             <input type="text" id="timer" name="timer" readonly style="">
             <input type="text" id="numberOfMistakes" name="numberOfMistakes" readonly style="">
+            <label>
+                <input type="text" name="savedTextId" id="savedTextId" value=" {{ (isset($idOfSavedText))?$idOfSavedText:''}}">
+            </label>
             <input type="submit" id="submitTimeButton" name="submitTimeButton" style="visibility: hidden">
         </form>
     </div>

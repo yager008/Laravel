@@ -33,6 +33,8 @@ class TypeTestController extends Controller
         $textToCompare = Session::get('textToCompare');
         $bibleApiResponse = Session::get('bibleApiResponse');
         $loremApiResponse = Session::get('loremApiResponse');
+        $idOfSavedText = Session::get('idOfSavedText');
+
         $apiResponse = '';
 
         if(isset($bibleApiResponse)) {
@@ -69,7 +71,7 @@ class TypeTestController extends Controller
 
         $name = auth()->user();
 
-        return view('type', compact('resultsArray', 'saved_texts', 'apiResponse', 'textToCompare', 'bShouldStartTimer', 'name'));
+        return view('type', compact('resultsArray', 'saved_texts', 'apiResponse', 'textToCompare', 'bShouldStartTimer', 'name', 'idOfSavedText'));
     }
 
     public function storeResult(Request $request)
@@ -120,16 +122,19 @@ class TypeTestController extends Controller
         $data = request()->validate([
             "inputTextBox" => 'string',
             'checkbox' => 'required_with:checkbox',
-            'savedTextName' => 'string'
+            'savedTextName' => 'required_with:checkbox',
+//            'savedTextId' => 'required_with:Id',
         ]);
 
         if (isset($data['checkbox']))
         {
-            saved_text::create([
+            $saved_text = saved_text::create([
                 'text' => $data['inputTextBox'],
                 'text_name' => $data['savedTextName'],
                 'user_id' => auth()->user()['id']
             ]);
+
+            Session::put('idOfSavedText', $saved_text['id']);
         }
 
         Session::put('textToCompare', $data['inputTextBox']);

@@ -12,6 +12,7 @@
                 <script>
                     InButtonText = document.getElementById('saved_text_btn_{{ $result['id'] }}').value;
                     document.getElementById('inputTextBox').value = InButtonText;
+                    {{--document.getElementById('savedTextId').value = {{ $result['id'] }};--}}
                 </script>
                     <?php
                 }
