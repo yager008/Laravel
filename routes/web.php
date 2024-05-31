@@ -162,7 +162,6 @@ Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])->
 Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])->middleware('guest')->name('password.reset');
 Route::post('/reset-password', [NewPasswordController::class, 'store'])->middleware('guest')->name('password.update');
 
-
 Route::get('/send-test-email', function () {
     \Illuminate\Support\Facades\Mail::raw('This is a test email!', function ($message) {
         $message->to('test@example.com')

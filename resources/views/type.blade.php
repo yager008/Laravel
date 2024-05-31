@@ -108,6 +108,11 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 
         <form autocomplete="off" method="POST" action="{{ route('TypeTestController.storeSavedTextIfCheckBoxIsOn') }}">
             @csrf
+
+            <label>
+                <input type="text" name="savedTextName" id="savedTextName">
+            </label>
+
             <label>
                 <input type="checkbox" title="should save text to saved_texts" name="checkbox" id="checkbox">
             </label>

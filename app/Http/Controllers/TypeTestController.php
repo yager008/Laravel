@@ -120,13 +120,14 @@ class TypeTestController extends Controller
         $data = request()->validate([
             "inputTextBox" => 'string',
             'checkbox' => 'required_with:checkbox',
+            'savedTextName' => 'string'
         ]);
 
         if (isset($data['checkbox']))
         {
             saved_text::create([
                 'text' => $data['inputTextBox'],
-                'text_name' => 'also_default_text_name',
+                'text_name' => $data['savedTextName'],
                 'user_id' => auth()->user()['id']
             ]);
         }

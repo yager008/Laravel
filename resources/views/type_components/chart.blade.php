@@ -51,7 +51,13 @@
                 y: {
                     beginAtZero: true,
                 }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
             }
+
         };
         // Call the createChart function
         window.createChart('myChart', myData, chartOptions);
