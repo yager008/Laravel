@@ -49,6 +49,7 @@ class TypeTestController extends Controller
         Session::remove('bibleApiResponse');
         Session::remove('loremApiResponse');
         Session::remove('bShouldStartTimer');
+        Session::remove('idOfSavedText');
 
        // $type_results = type_result::pluck('result')->toArray();
         $type_results = type_result::where('user_id', auth::user()['id'])
@@ -67,7 +68,7 @@ class TypeTestController extends Controller
 
 //        $saved_texts = saved_text::all();
         $saved_texts = saved_text::where('user_id', auth::user()['id'])
-            ->get(['id', 'text', 'text_name']);
+            ->get(['id', 'text', 'text_name', 'best_speed']);
 
         $name = auth()->user();
 
@@ -76,24 +77,26 @@ class TypeTestController extends Controller
 
     public function storeResult(Request $request)
     {
-//        $user = auth()->user();
-//
-//        $timezone = $user['timezone'];
-//
-//        $utcTime = Carbon::now('UTC');
-//
-//        $userTime = $utcTime->setTimezone($timezone);
-//
-//        $formattedTime = $userTime->format('Y-m-d H:i:s');
-
         $data = request()->validate([
             "timer" => 'string',
             "numberOfMistakes" => 'nullable|string',
-            "outputSpeed" => 'string'
+            "outputSpeed" => 'string',
+            "savedTextId" => 'required_with:savedTextId'
         ]);
 
         $data['numberOfMistakes'] = $data['numberOfMistakes'] ?? '0';
 
+        if($data['savedTextId'] !== null) {
+
+            $savedText = saved_text::find($data['savedTextId']);
+
+            $currentBestSpeed = $savedText->best_speed;
+
+            if ($data['outputSpeed'] > $currentBestSpeed) {
+                // If the new speed is better, update the record with the new best speed
+                $savedText->update(['best_speed' => $data['outputSpeed']]);
+            }
+        }
 
         type_result::create([
             'result' => $data['outputSpeed'],
@@ -123,8 +126,10 @@ class TypeTestController extends Controller
             "inputTextBox" => 'string',
             'checkbox' => 'required_with:checkbox',
             'savedTextName' => 'required_with:checkbox',
-//            'savedTextId' => 'required_with:Id',
+            'savedTextID' => 'required_with:Id',
         ]);
+
+        Session::put('idOfSavedText', $data['savedTextID']);
 
         if (isset($data['checkbox']))
         {
@@ -139,7 +144,6 @@ class TypeTestController extends Controller
 
         Session::put('textToCompare', $data['inputTextBox']);
         Session::put('bShouldStartTimer', true);
-
 
         return redirect()->route("TypeTestController.type");
     }

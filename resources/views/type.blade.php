@@ -29,7 +29,9 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
         document.getElementById('timer').value = timerCounter.toString();
         document.getElementById('outputSpeed').value = fullTextLength / timerCounter.toString() * 60;
     }
-    document.getElementById('typeTextInputField').focus();
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('typeTextInputField').focus();
+    });
 </script>
 
 <?php
@@ -84,7 +86,8 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             <input type="text" id="timer" name="timer" readonly style="">
             <input type="text" id="numberOfMistakes" name="numberOfMistakes" readonly style="">
             <label>
-                <input type="text" name="savedTextId" id="savedTextId" value=" {{ (isset($idOfSavedText))?$idOfSavedText:''}}">
+                <input type="text" name="savedTextId" id="savedTextId" value=" {{ (isset($idOfSavedText))?$idOfSavedText:'' }}">
+{{--                <input type="text" name="savedTextId" id="savedTextId" value="">--}}
             </label>
             <input type="submit" id="submitTimeButton" name="submitTimeButton" style="visibility: hidden">
         </form>
@@ -123,6 +126,10 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             <label>
                 <input type="text" name="inputTextBox" id="inputTextBox"
                        value="{{(isset($apiResponse))?$apiResponse:''}}">
+            </label>
+
+            <label>
+                <input type="text" name="savedTextID" id="savedTextID" value="">
             </label>
 
             <label>
