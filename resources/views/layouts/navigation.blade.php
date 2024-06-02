@@ -13,7 +13,13 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('TypeTestController.type')" :active="request()->routeIs('TypeTestController.type')">
-                        {{ __('Dashboard') }}
+                        {{ __('Typing') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('logout')" :active="request()->routeIs('logout')">
+                        {{ __('Charts') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('TypeTestController.type')" :active="request()->routeIs('TypeTestController.type')">
+                        {{ __('Saved texts') }}
                     </x-nav-link>
                 </div>
             </div>

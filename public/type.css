@@ -21,4 +21,30 @@ body {
         border-color: #ef4444;
 
     }
+
+    input::placeholder {
+        color: #0051ff;
+        opacity: 1; /* Make sure the opacity is set to 1 if you want solid color */
+    }
+
+    /* Firefox 19+ */
+    input::-moz-placeholder {
+        color: red;
+        opacity: 1;
+    }
+
+    /* Internet Explorer 10-11 */
+    input:-ms-input-placeholder {
+        color: red;
+    }
+
+    /* Microsoft Edge */
+    input::-ms-input-placeholder {
+        color: red;
+    }
+
+    /* Older versions of Firefox */
+    input:-moz-placeholder {
+        color: red;
+    }
 }

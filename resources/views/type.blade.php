@@ -109,12 +109,12 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             <input type="text" id="timer" name="timer" readonly style="">
             <input type="text" id="numberOfMistakes" name="numberOfMistakes" readonly style="">
             <label>
-                <input type="text" name="savedTextId" id="savedTextId" value=" {{ (isset($idOfSavedText))?$idOfSavedText:'' }}" style="display: ">
+                <input type="text" name="savedTextId" id="savedTextId" value=" {{ (isset($idOfSavedText))?$idOfSavedText:'' }}" style="visibility: ">
 {{--                value="{{(isset($savedTextID))?$savedTextID:''}}">--}}
 
 {{--                <input type="text" name="savedTextId" id="savedTextId" value="">--}}
             </label>
-            <input type="submit" id="submitTimeButton" name="submitTimeButton" style="visibility: hidden">
+            <input type="submit" id="submitTimeButton" name="submitTimeButton" style="hidden">
         </form>
     </div>
 
@@ -141,7 +141,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             @csrf
 
             <label>
-                <input type="text" name="savedTextName" id="savedTextName">
+                <input type="text" name="savedTextName" id="savedTextName" placeholder="name of text to save" style="visibility: hidden" >
             </label>
 
             <label>
@@ -154,7 +154,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             </label>
 
             <label>
-                <input type="text" name="savedTextID" id="savedTextID" style="display: "
+                <input type="text" name="savedTextID" id="savedTextID" style="display: non"
                     value="{{(isset($savedTextID))?$savedTextID:''}}">
             </label>
 
@@ -209,13 +209,26 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     const timer = document.getElementById('timer')
     const submitButton = document.getElementById('submitInputTextBoxButton')
 
-
     typeTextInputField.addEventListener('input', function () {
         if(typeTextInputField.value.length === 1 && timer.value === "") {
             StartTimer();
         }
     });
 
+    const checkbox = document.getElementById('checkbox')
+    const savedTextName = document.getElementById('savedTextName')
+
+    checkbox.addEventListener("click", function () {
+        if(checkbox.checked) {
+            savedTextName.style = '';
+        }
+        else {
+            savedTextName.style = 'visibility: hidden';
+
+        }
+
+
+    });
 
 </script>
 
