@@ -2,27 +2,29 @@
     {{--  выводим значени таблицы saved_texts --}}
     @foreach ($saved_texts as $result)
         <li class="grid-item">
-            <form method="POST">
+            <form method="POST" action="{{route('TypeTestController.openSavedText')}}">
                 @csrf
                 <button name="saved_text_open_btn_{{ $result['id'] }}" id="saved_text_btn_{{ $result['id'] }}" value="{{ $result['text'] }}">{{ $result['text_name'] }}</button>
                 <p>best speed: {{ $result['best_speed'] }}</p>
+                <input type="text" value="{{$result['best_speed']}}" name="bestSpeed" id="bestSpeed" >
+                <input type="text" value="{{$result['id']}}" name="savedTextID" id="savedTextID">
+                <input type="text" value="{{$result['text']}}" name="savedText" id="savedText">
 
+{{--                    <?php--}}
+{{--                if (isset($_POST["saved_text_open_btn_" . $result['id']]))--}}
+{{--                {--}}
+{{--                    ?>--}}
+{{--                <script>--}}
+{{--                    console.log('console log: {{$result['id']}}');--}}
 
-                    <?php
-                if (isset($_POST["saved_text_open_btn_" . $result['id']]))
-                {
-                    ?>
-                <script>
-                    console.log('console log: {{$result['id']}}');
-
-                    InButtonText = document.getElementById('saved_text_btn_{{ $result['id'] }}').value;
-                    document.getElementById('inputTextBox').value = InButtonText;
-                    document.getElementById('savedTextId').value = {{ $result['id'] }};
-                    document.getElementById('savedTextID').value = {{ $result['id'] }};
-                </script>
-                    <?php
-                }
-                    ?>
+{{--                    InButtonText = document.getElementById('saved_text_btn_{{ $result['id'] }}').value;--}}
+{{--                    document.getElementById('inputTextBox').value = InButtonText;--}}
+{{--                    document.getElementById('savedTextId').value = {{ $result['id'] }};--}}
+{{--                    document.getElementById('savedTextID').value = {{ $result['id'] }};--}}
+{{--                </script>--}}
+{{--                    <?php--}}
+{{--                }--}}
+{{--                    ?>--}}
             </form>
 
             <div class="button-container">

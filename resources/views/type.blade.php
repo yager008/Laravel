@@ -1,8 +1,21 @@
 @vite(['resources/js/app.js'])
 
+<script>
+    function StartTimer () {
+        let timerCounter = 0;
+        window.setInterval(myTimer, 1000);
+        document.getElementById('timer').value = 0;
+
+        function myTimer() {
+            timerCounter++;
+            let fullTextLength = document.getElementById('lenOfFullText').innerText;
+            document.getElementById('timer').value = timerCounter.toString();
+            document.getElementById('outputSpeed').value = fullTextLength / timerCounter.toString() * 60;
+        }
+    }
+</script>
+
 <?php
-//    echo $name['name'];
-//    echo "<br>";
 
 echo auth()->user()['timezone'];
 
@@ -21,16 +34,10 @@ echo "</div>";
 if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 ?>
 <script>
-    let timerCounter = 0;
-    window.setInterval(myTimer, 1000);
-    function myTimer() {
-        timerCounter++;
-        let fullTextLength = document.getElementById('lenOfFullText').innerText;
-        document.getElementById('timer').value = timerCounter.toString();
-        document.getElementById('outputSpeed').value = fullTextLength / timerCounter.toString() * 60;
-    }
     document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('typeTextInputField').focus();
+
+        StartTimer();
     });
 </script>
 
@@ -75,18 +82,36 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 
 </x-app-layout>
 
+
+<!-- Dialog Box for result -->
+<dialog id="dialogBox">
+    <p id="dialogMessage"></p>
+    <button onclick="closeDialog()">Close</button>
+</dialog>
+
+
+<script>
+    if({{$bShowDialogBoxWithResult}}) {
+        document.getElementById('dialogMessage').innerText = "{{$dialogBoxContent}}";
+        document.getElementById('dialogBox').showModal();
+    }
+</script>
+
 <div class="container-fluid d-flex flex-column align-items-center justify-content-center vh-100">
+    <p>{{$updateInfo}}</p>
 
     <div>
         <form method="POST" action="{{route('TypeTestController.store')}}">
             @csrf
             <input type="text" id="outputSpeed" name="outputSpeed" placeholder="outputSpeed"
-                   value="{{ strlen($textToCompare)}}" readonly style="">
+                   value="{{ strlen($textToCompare)}}" readonly style="display: none">
             <lable for="timer"></lable>
             <input type="text" id="timer" name="timer" readonly style="">
             <input type="text" id="numberOfMistakes" name="numberOfMistakes" readonly style="">
             <label>
-                <input type="text" name="savedTextId" id="savedTextId" value=" {{ (isset($idOfSavedText))?$idOfSavedText:'' }}">
+                <input type="text" name="savedTextId" id="savedTextId" value=" {{ (isset($idOfSavedText))?$idOfSavedText:'' }}" style="display: ">
+{{--                value="{{(isset($savedTextID))?$savedTextID:''}}">--}}
+
 {{--                <input type="text" name="savedTextId" id="savedTextId" value="">--}}
             </label>
             <input type="submit" id="submitTimeButton" name="submitTimeButton" style="visibility: hidden">
@@ -125,15 +150,16 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 
             <label>
                 <input type="text" name="inputTextBox" id="inputTextBox"
-                       value="{{(isset($apiResponse))?$apiResponse:''}}">
+                       value="{{(isset($textToSetInInputTextBox))?$textToSetInInputTextBox:''}}">
             </label>
 
             <label>
-                <input type="text" name="savedTextID" id="savedTextID" value="">
+                <input type="text" name="savedTextID" id="savedTextID" style="display: "
+                    value="{{(isset($savedTextID))?$savedTextID:''}}">
             </label>
 
             <label>
-                <input type="submit" name="submitInputTextBoxButton">
+                <input type="submit" name="submitInputTextBoxButton" id="submitInputTextBoxButton">
             </label>
         </form>
     </div>
@@ -144,16 +170,14 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     </div>
     <div>
         <br><br>
-        <p id="debug_typedTextOutputDisplayNone" style="display: none"></p>
+        <p id="debug_typedTextOutputDisplayNone" style="display: "></p>
     </div>
     <div>
         @include('type_components.text_to_type_in_dynamic_color_chars')
     </div>
 </div>
 
-@include('type_components.type_results_table');
-
-{{--<hr class="border border-primary border-3 opacity-75">--}}
+{{--@include('type_components.type_results_table');--}}
 
 @include('type_components.chart')
 
@@ -164,6 +188,36 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
         crossorigin="anonymous"></script>
 <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
 
+<form id="exitSavedTextModeForm" action="{{ route('TypeTestController.exitSavedTextMode') }}" method="POST" style="display: none;">
+    @csrf
+</form>
+
+<script>
+    const inputTextBox = document.getElementById('inputTextBox');
+    const savedTextID = document.getElementById('savedTextID');
+    const exitSavedTextModeForm = document.getElementById('exitSavedTextModeForm');
+
+    inputTextBox.addEventListener('input', function () {
+        if(savedTextID.value !== "") {
+            savedTextID.value = "";
+            exitSavedTextModeForm.submit();
+        }
+    });
+
+    const typeTextInputField = document.getElementById('typeTextInputField');
+    const textToCompare = "{{$textToCompare}}";
+    const timer = document.getElementById('timer')
+    const submitButton = document.getElementById('submitInputTextBoxButton')
+
+
+    typeTextInputField.addEventListener('input', function () {
+        if(typeTextInputField.value.length === 1 && timer.value === "") {
+            StartTimer();
+        }
+    });
+
+
+</script>
 
 </body>
 </html>

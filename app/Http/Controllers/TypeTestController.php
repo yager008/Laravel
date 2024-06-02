@@ -26,22 +26,88 @@ class TypeTestController extends Controller
     {
         return view('test');
     }
+    public function exitSavedTextMode() {
+        Session::remove('savedText');
+        Session::remove('bestSpeed');
+        Session::remove('savedTextID');
+        Session::remove('previousBestSpeed');
+
+        return redirect()->route("TypeTestControllerPost.type");
+    }
+
+
     public function type()
     {
-        Session::start();
+        session_start();
 
         $textToCompare = Session::get('textToCompare');
         $bibleApiResponse = Session::get('bibleApiResponse');
         $loremApiResponse = Session::get('loremApiResponse');
         $idOfSavedText = Session::get('idOfSavedText');
+        $bFromStoreResult = Session::get('bFromStoreResult');
 
-        $apiResponse = '';
+        //if redirect from TypeTestController.saveText
+        $bSavedTextUpdate = Session::get('bSavedTextUpdate');
+        $previousBestSpeed = Session::get('previousBestSpeed');
+        $bUpdateMode= Session::get('bUpdateMode');
 
-        if(isset($bibleApiResponse)) {
-            $apiResponse = $bibleApiResponse;
+        if($bUpdateMode) {
+            $updateInfo = 'in saved_text mode';
+            session::put('bUpdateMode', false);
         }
+
         else {
-            $apiResponse = $loremApiResponse;
+            $updateInfo = 'not in saved_text mode';
+            session::put('bUpdateMode', false);
+        }
+
+        Session::put('bSavedTextUpdate', false);
+
+        //if redirected from TypeTestController.openSavedText
+        $savedText = Session::get('savedText');
+        $bestSpeed = Session::get('bestSpeed');
+        $savedTextID = Session::get('savedTextID');
+
+        $latest_type_result_speed = type_result::latest('id')->first()->result;
+
+        if($bSavedTextUpdate) {
+//            Session::remove('savedText');
+//            Session::remove('bestSpeed');
+//            Session::remove('savedTextID');
+//            Session::remove('previousBestSpeed');
+
+            if ($previousBestSpeed < $latest_type_result_speed) {
+                $dialogBoxContent = "savedTextId: " . $savedTextID. " " . "previousBestSpeed" . $previousBestSpeed. " " . "yourSpeed: " . $latest_type_result_speed . "CONGRATS!!!";
+            }
+            else if ($previousBestSpeed > $latest_type_result_speed) {
+                $dialogBoxContent = "savedTextId: " . $savedTextID. " " . "previousBestSpeed" . $previousBestSpeed. " " . "yourSpeed: " . $latest_type_result_speed . ":(((((((";
+            }
+            else {
+                $dialogBoxContent = "savedTextId: " . $savedTextID. " " . "previousBestSpeed" . $previousBestSpeed. " " . "yourSpeed: " . $latest_type_result_speed . "EQUAL!!!";
+
+            }
+
+            $bShowDialogBoxWithResult = true;
+        }
+        else if ($bFromStoreResult) {
+                $dialogBoxContent = $latest_type_result_speed;
+                $bShowDialogBoxWithResult = true;
+            }
+            else {
+                $dialogBoxContent = "NOT from store result";
+                $bShowDialogBoxWithResult = false;
+            }
+
+        $textToSetInInputTextBox = '';
+
+        if(isset($savedText)) {
+            $textToSetInInputTextBox = $savedText;
+        }
+        else if(isset($bibleApiResponse)) {
+            $textToSetInInputTextBox = $bibleApiResponse;
+        }
+        else if(isset($loremApiResponse)) {
+            $textToSetInInputTextBox = $loremApiResponse;
         }
 
         $bShouldStartTimer = Session::get('bShouldStartTimer');
@@ -50,6 +116,7 @@ class TypeTestController extends Controller
         Session::remove('loremApiResponse');
         Session::remove('bShouldStartTimer');
         Session::remove('idOfSavedText');
+        Session::remove('bFromStoreResult');
 
        // $type_results = type_result::pluck('result')->toArray();
         $type_results = type_result::where('user_id', auth::user()['id'])
@@ -63,6 +130,7 @@ class TypeTestController extends Controller
                 'result' => $item->result,
                 'number_of_mistakes' => $item->number_of_mistakes
             ];
+
         })->toArray();
 
 
@@ -72,11 +140,31 @@ class TypeTestController extends Controller
 
         $name = auth()->user();
 
-        return view('type', compact('resultsArray', 'saved_texts', 'apiResponse', 'textToCompare', 'bShouldStartTimer', 'name', 'idOfSavedText'));
+        return view('type', compact('resultsArray', 'saved_texts', 'textToSetInInputTextBox', 'textToCompare', 'bShouldStartTimer', 'name', 'idOfSavedText', 'bShowDialogBoxWithResult', 'dialogBoxContent', 'savedText', 'bestSpeed', 'savedTextID', 'updateInfo'));
+    }
+
+    public function openSavedText(Request $request) {
+        $data = request()->validate([
+            "bestSpeed" => 'string',
+            "savedTextID" => 'string',
+            "savedText" => 'string',
+        ]);
+
+        Session::start();
+
+        Session::put('savedTextID', $data['savedTextID']);
+        Session::put('savedText', $data['savedText']);
+        Session::put('bestSpeed', $data['bestSpeed']);
+
+        return redirect()->route("TypeTestControllerPost.type");
     }
 
     public function storeResult(Request $request)
     {
+        Session::start();
+
+        Session::put('bFromStoreResult', 'true');
+
         $data = request()->validate([
             "timer" => 'string',
             "numberOfMistakes" => 'nullable|string',
@@ -87,10 +175,11 @@ class TypeTestController extends Controller
         $data['numberOfMistakes'] = $data['numberOfMistakes'] ?? '0';
 
         if($data['savedTextId'] !== null) {
-
+            Session::put('bSavedTextUpdate', 'true');
             $savedText = saved_text::find($data['savedTextId']);
 
             $currentBestSpeed = $savedText->best_speed;
+            Session::put('previousBestSpeed', $currentBestSpeed);
 
             if ($data['outputSpeed'] > $currentBestSpeed) {
                 // If the new speed is better, update the record with the new best speed
@@ -131,8 +220,14 @@ class TypeTestController extends Controller
 
         Session::put('idOfSavedText', $data['savedTextID']);
 
+        if($data['savedTextID'] !== null) {
+            Session::put('bUpdateMode', true);
+        }
+
         if (isset($data['checkbox']))
         {
+            Session::put('bUpdateMode', true);
+
             $saved_text = saved_text::create([
                 'text' => $data['inputTextBox'],
                 'text_name' => $data['savedTextName'],

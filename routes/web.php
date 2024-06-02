@@ -81,6 +81,8 @@ Route::get('/Lorem', [TypeTestController::class, 'lorem' ])->name('typeTest.lore
 
 Route::post('/dashboard', [TypeTestController::class, 'type' ])->name('TypeTestControllerPost.type');
 Route::post('/StoreResult', [TypeTestController::class, 'storeResult' ])->name('TypeTestController.store');
+Route::post('/openSavedText', [TypeTestController::class, 'openSavedText' ])->name('TypeTestController.openSavedText');
+Route::post('/exitSavedTextMode', [TypeTestController::class, 'exitSavedTextMode' ])->name('TypeTestController.exitSavedTextMode');
 
 Route::get('/StoreSavedText', [TypeTestController::class, 'storeSavedTextIfCheckboxIsOn' ])->name('TypeTestController.storeSavedTextIfCheckBoxIsOn');
 Route::post('/StoreSavedText', [TypeTestController::class, 'storeSavedTextIfCheckboxIsOn' ])->name('TypeTestControllerPost.storeSavedTextIfCheckBoxIsOn');
@@ -167,6 +169,7 @@ Route::get('/send-test-email', function () {
         $message->to('test@example.com')
             ->subject('Test Email');
     });
+
 
     return 'Test email sent!';
 });
