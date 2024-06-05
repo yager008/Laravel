@@ -19,7 +19,9 @@ class BibleApiController extends Controller
      */
     public function index()
     {
+
         $response = Http::get('https://bible-api.com/?random=verse');
+
         $response = json_decode($response, true);
         $stringResponse =  $response['verses']['0']['text'];
         $stringResponse = str_replace("’", "'", $stringResponse);
@@ -32,6 +34,9 @@ class BibleApiController extends Controller
         $stringResponse = str_replace("  ", ' ', $stringResponse);
         $stringResponse = str_replace("—", '-', $stringResponse);
         $stringResponse = str_replace("?I", '? I', $stringResponse);
+
+
+        echo "<div id='loremResponse' >{$stringResponse}</div>";
 
         $bibleApiResponse = $stringResponse;
         Session::put('bibleApiResponse', $bibleApiResponse);
