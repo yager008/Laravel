@@ -14,8 +14,7 @@
 </script>
 
 <?php
-
-echo auth()->user()['timezone'];
+//echo auth()->user()['timezone'];
 
     //сетим див с текстом из апи
 if (!empty($textToCompare)) {
@@ -42,29 +41,23 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 }
 ?>
 
-{{--<!DOCTYPE html>--}}
-{{--<html lang="en">--}}
-{{--<head>--}}
-{{--    <meta charset="UTF-8">--}}
-{{--    <meta name="viewport" content="width=device-width, initial-scale=1.0">--}}
-{{--    <title>TypeDasher</title>--}}
-{{--    <link rel="icon" href="{{ URL::asset('favicon.ico') }}" type="image/x-icon"/>--}}
-{{--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"--}}
-{{--          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">--}}
-{{--    <link rel="stylesheet" href=" {{ asset('type.css') }}">--}}
-{{--</head>--}}
-{{--<body>--}}
-
-{{--navbar--}}
-
-<!-- navbar -->
 <x-app-layout>
 
 <!-- Dialog Box for result -->
-<dialog id="dialogBox">
-    <p id="dialogMessage"></p>
-    <button onclick="closeDialog()">Close</button>
+<dialog id="dialogBox" class="content-around">
+    <div class="flex justify-center items-center h-full flex-col">
+
+        <p>Your speed result:</p>
+        <p id="dialogMessage" class="inline"></p>
+        <p>symbols/second</p>
+
+        <br>
+        <button onclick="closeDialog()" class="bg-blue-900 ">Close</button>
+    </div>
+
 </dialog>
+
+
 
 
 <script>
@@ -76,7 +69,6 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 
 <div class="container-fluid d-flex flex-column align-items-center justify-content-center vh-100">
     <p>{{$updateInfo}}</p>
-
     <div>
         <form method="POST" action="{{route('TypeTestController.store')}}">
             @csrf
@@ -156,18 +148,16 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 
 {{--@include('type_components.type_results_table');--}}
 
-
-
+<!-- bootstrap scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-<div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+
 
 <form id="exitSavedTextModeForm" action="{{ route('TypeTestController.exitSavedTextMode') }}" method="POST" style="display: none;">
     @csrf
 </form>
 
-<!--  -->
 <script>
     //выходо из сейвд текст мода
     const inputTextBox = document.getElementById('inputTextBox');
@@ -209,4 +199,3 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 </script>
 
 </x-app-layout>
-
