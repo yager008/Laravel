@@ -79,9 +79,6 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             <input type="text" id="numberOfMistakes" name="numberOfMistakes" readonly style="">
             <label>
                 <input type="text" name="savedTextId" id="savedTextId" value=" {{ (isset($idOfSavedText))?$idOfSavedText:'' }}" style="visibility: ">
-{{--                value="{{(isset($savedTextID))?$savedTextID:''}}">--}}
-
-{{--                <input type="text" name="savedTextId" id="savedTextId" value="">--}}
             </label>
             <input type="submit" id="submitTimeButton" name="submitTimeButton" style="hidden">
         </form>
@@ -109,9 +106,23 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
         <form autocomplete="off" method="POST" action="{{ route('TypeTestController.storeSavedTextIfCheckBoxIsOn') }}">
             @csrf
 
-            <label>
-                <input type="text" name="savedTextName" id="savedTextName" placeholder="name of text to save" style="visibility: hidden" >
-            </label>
+{{--            <label>--}}
+{{--                <input type="text" name="savedTextName" id="savedTextName" placeholder="name of text to save" style="visibility: hidden" >--}}
+{{--            </label>--}}
+
+            <div id='textNameDiv' class="container mx-auto p-4" style="visibility: hidden">
+                    <label for="savedTextName" class="block text-gray-700 text-sm font-bold mb-2">Enter text (max 15 characters):</label>
+                    <input type="text" id="savedTextName" name="savedTextName" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+
+                <div id="alert" class="hidden mt-2 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+
+                    <strong class="font-bold">Error!</strong>
+                    <span class="block sm:inline">You cannot enter more than 15 characters.</span>
+                    <span class="absolute top-0 bottom-0 right-0 px-4 py-3" onclick="closeAlert()">
+                <svg class="fill-current h-6 w-6 text-red-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 5.652a1 1 0 011.414 1.414l-4.657 4.657 4.657 4.657a1 1 0 01-1.414 1.414l-4.657-4.657-4.657 4.657a1 1 0 01-1.414-1.414l4.657-4.657-4.657-4.657a1 1 0 011.414-1.414l4.657 4.657 4.657-4.657z"/></svg>
+            </span>
+                </div>
+            </div>
 
             <label>
                 <input type="checkbox" title="should save text to saved_texts" name="checkbox" id="checkbox">
@@ -176,26 +187,57 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     const textToCompare = "{{$textToCompare}}";
     const timer = document.getElementById('timer')
     const submitButton = document.getElementById('submitInputTextBoxButton')
+    const textID = document.getElementById('savedTextID')
+    const textId = document.getElementById('savedTextId')
 
     typeTextInputField.addEventListener('input', function () {
         if(typeTextInputField.value.length === 1 && timer.value === "") {
             StartTimer();
         }
+        if(textID.value !== "") {
+            textId.value = textID.value;
+        }
     });
+    // no more than 15 symbols in name of text
+
+    // const newTextName = document.getElementById('savedTextName')
+    // const alert = document.getElementById('alert');
+
+    // alert("hello");
+
+
+    // function closeAlert() {
+    //     document.getElementById('alert').classList.add('hidden');
+    // }
 
     //hide open saved text name
     const checkbox = document.getElementById('checkbox')
     const savedTextName = document.getElementById('savedTextName')
+    const textNameDiv = document.getElementById('textNameDiv')
+    const alertDiv = document.getElementById('alert');
 
     checkbox.addEventListener("click", function () {
         if(checkbox.checked) {
-            savedTextName.style = '';
+            textNameDiv.style = '';
         }
         else {
-            savedTextName.style = 'visibility: hidden';
-
+            textNameDiv.style = 'visibility: hidden';
         }
     });
+
+    savedTextName.addEventListener('input', function() {
+        if (savedTextName.value.length > 15) {
+            savedTextName.value = savedTextName.value.slice(0, 15);
+            alertDiv.classList.remove('hidden');
+        } else {
+            alertDiv.classList.add('hidden');
+        }
+    });
+
+    function closeAlert() {
+        alertDiv.classList.add('hidden');
+    }
+</script>
 </script>
 
 </x-app-layout>
