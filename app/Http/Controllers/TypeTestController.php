@@ -164,8 +164,10 @@ class TypeTestController extends Controller
     }
 
     public function savedTexts() {
+        $saved_texts = saved_text::where('user_id', auth::user()['id'])
+            ->get(['id', 'text', 'text_name', 'best_speed']);
 
-        return view('savedTexts');
+        return view('savedTexts', compact('saved_texts'));
     }
 
     public function openSavedText(Request $request) {

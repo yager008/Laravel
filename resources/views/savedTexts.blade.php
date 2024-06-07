@@ -1,5 +1,5 @@
 <x-app-layout>
-    hello world
+    @include('type_components.saved_texts')
 
 
 </x-app-layout>
