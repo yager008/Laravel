@@ -243,7 +243,7 @@ class TypeTestController extends Controller
         return redirect()->route("TypeTestController.type");
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request): void
     {
         echo $request->inputBox;
 
@@ -264,7 +264,6 @@ class TypeTestController extends Controller
     }
 //    public function bible()
 //    {
-//
 //        $ch_req = curl_init("https://bible-api.com/?random=verse");
 //        curl_setopt($ch_req, CURLOPT_RETURNTRANSFER, true);
 //
