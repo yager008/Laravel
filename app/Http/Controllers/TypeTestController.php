@@ -143,6 +143,31 @@ class TypeTestController extends Controller
         return view('type', compact('resultsArray', 'saved_texts', 'textToSetInInputTextBox', 'textToCompare', 'bShouldStartTimer', 'name', 'idOfSavedText', 'bShowDialogBoxWithResult', 'dialogBoxContent', 'savedText', 'bestSpeed', 'savedTextID', 'updateInfo'));
     }
 
+    public function statistics() {
+
+        // $type_results = type_result::pluck('result')->toArray();
+        $type_results = type_result::where('user_id', auth::user()['id'])
+            ->get(['updated_at', 'result', 'number_of_mistakes']);
+
+        // Transform the results into an associative array
+        $resultsArray = $type_results->map(function ($item) {
+            return [
+//                'updated_at' => date('H:i:s d.m.Y', $item->updated_at->timestamp),
+                'updated_at' => Carbon::parse($item->updated_at)->timezone(auth()->user()['timezone'])->toDateTimeString(),
+                'result' => $item->result,
+                'number_of_mistakes' => $item->number_of_mistakes
+            ];
+
+        })->toArray();
+
+        return view('charts', compact('resultsArray'));
+    }
+
+    public function savedTexts() {
+
+        return view('savedTexts');
+    }
+
     public function openSavedText(Request $request) {
         $data = request()->validate([
             "bestSpeed" => 'string',

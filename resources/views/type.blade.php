@@ -156,7 +156,6 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
 
 {{--@include('type_components.type_results_table');--}}
 
-@include('type_components.chart')
 
 @include('type_components.saved_texts')
 
@@ -169,6 +168,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
     @csrf
 </form>
 
+<!--  -->
 <script>
     const inputTextBox = document.getElementById('inputTextBox');
     const savedTextID = document.getElementById('savedTextID');
@@ -181,6 +181,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
         }
     });
 
+    //сетим таймер если еще не начат и вбивается первая буква
     const typeTextInputField = document.getElementById('typeTextInputField');
     const textToCompare = "{{$textToCompare}}";
     const timer = document.getElementById('timer')
@@ -192,6 +193,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
         }
     });
 
+    //hide open saved text name
     const checkbox = document.getElementById('checkbox')
     const savedTextName = document.getElementById('savedTextName')
 
@@ -203,10 +205,7 @@ if (isset($bShouldStartTimer) && $bShouldStartTimer) {
             savedTextName.style = 'visibility: hidden';
 
         }
-
-
     });
-
 </script>
 
 </x-app-layout>
