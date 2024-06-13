@@ -34,18 +34,20 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'timezone' => ['required', Rule::in(array_flip(timezone_identifiers_list()))]
+            'timezone' => ['required', Rule::in(timezone_identifiers_list())]
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'timezone' => timezone_identifiers_list()[$request->input('timezone', 'UTC')]
+//            'timezone' => timezone_identifiers_list()[$request->input('timezone', 'UTC')]
+            'timezone' => $request->timezone // Use the timezone value directly
         ]);
 
         event(new Registered($user));

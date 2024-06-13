@@ -39,6 +39,9 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+
+
+        <!-- timezone -->
         <div class="mt-4">
             <x-input-label for="timezone" :value="__('Timezone')"/>
             <x-select-input id="timezone" class="block mt-1 w-full" name="timezone" :options="$timezones"

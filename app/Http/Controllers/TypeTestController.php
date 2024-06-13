@@ -230,7 +230,7 @@ class TypeTestController extends Controller
 
         saved_text::destroy($buttonValue);
 
-        return redirect()->route("TypeTestControllerPost.type");
+        return redirect()->route("TypeTestController.savedTexts");
     }
 
     public static function storeSavedTextIfCheckboxIsOn(Request $request)
