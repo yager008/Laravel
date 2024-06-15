@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <div id="cal-heatmap"></div>
-{{--        @include('type_components.chart')--}}
+        @include('type_components.chart')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const data = {
