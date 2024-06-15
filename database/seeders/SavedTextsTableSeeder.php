@@ -24,7 +24,7 @@ class SavedTextsTableSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
                 'text' => $faker->paragraph,
-                'text_name' => $faker->sentence,
+                'text_name' => $faker->sentence(3),
                 'best_speed' => $faker->numberBetween(0, 100),
             ]);
         }

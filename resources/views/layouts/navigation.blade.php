@@ -15,10 +15,12 @@
                     <x-nav-link :href="route('TypeTestController.type')" :active="request()->routeIs('TypeTestController.type')">
                         {{ __('Typing') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('logout')" :active="request()->routeIs('logout')">
-                        {{ __('Charts') }}
+
+                    <x-nav-link :href="route('TypeTestController.statistics')" :active="request()->routeIs('TypeTestController.statistics')">
+                        {{ __('Statistics') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('TypeTestController.type')" :active="request()->routeIs('TypeTestController.type')">
+
+                    <x-nav-link :href="route('TypeTestController.savedTexts')" :active="request()->routeIs('TypeTestController.savedTexts')">
                         {{ __('Saved texts') }}
                     </x-nav-link>
                 </div>

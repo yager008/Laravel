@@ -133,7 +133,6 @@ class TypeTestController extends Controller
 
         })->toArray();
 
-
 //        $saved_texts = saved_text::all();
         $saved_texts = saved_text::where('user_id', auth::user()['id'])
             ->get(['id', 'text', 'text_name', 'best_speed']);
@@ -141,6 +140,33 @@ class TypeTestController extends Controller
         $name = auth()->user();
 
         return view('type', compact('resultsArray', 'saved_texts', 'textToSetInInputTextBox', 'textToCompare', 'bShouldStartTimer', 'name', 'idOfSavedText', 'bShowDialogBoxWithResult', 'dialogBoxContent', 'savedText', 'bestSpeed', 'savedTextID', 'updateInfo'));
+    }
+
+    public function statistics() {
+
+        // $type_results = type_result::pluck('result')->toArray();
+        $type_results = type_result::where('user_id', auth::user()['id'])
+            ->get(['updated_at', 'result', 'number_of_mistakes']);
+
+        // Transform the results into an associative array
+        $resultsArray = $type_results->map(function ($item) {
+            return [
+//                'updated_at' => date('H:i:s d.m.Y', $item->updated_at->timestamp),
+                'updated_at' => Carbon::parse($item->updated_at)->timezone(auth()->user()['timezone'])->toDateTimeString(),
+                'result' => $item->result,
+                'number_of_mistakes' => $item->number_of_mistakes
+            ];
+
+        })->toArray();
+
+        return view('charts', compact('resultsArray'));
+    }
+
+    public function savedTexts() {
+        $saved_texts = saved_text::where('user_id', auth::user()['id'])
+            ->get(['id', 'text', 'text_name', 'best_speed']);
+
+        return view('savedTexts', compact('saved_texts'));
     }
 
     public function openSavedText(Request $request) {
@@ -204,7 +230,7 @@ class TypeTestController extends Controller
 
         saved_text::destroy($buttonValue);
 
-        return redirect()->route("TypeTestControllerPost.type");
+        return redirect()->route("TypeTestController.savedTexts");
     }
 
     public static function storeSavedTextIfCheckboxIsOn(Request $request)
@@ -243,7 +269,7 @@ class TypeTestController extends Controller
         return redirect()->route("TypeTestController.type");
     }
 
-    public function upload(Request $request)
+    public function upload(Request $request): void
     {
         echo $request->inputBox;
 
@@ -264,7 +290,6 @@ class TypeTestController extends Controller
     }
 //    public function bible()
 //    {
-//
 //        $ch_req = curl_init("https://bible-api.com/?random=verse");
 //        curl_setopt($ch_req, CURLOPT_RETURNTRANSFER, true);
 //

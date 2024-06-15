@@ -4,8 +4,6 @@ let numberOfMistakes= 0;
 let bTypeTextCorrect= true;
 let mistakeAlreadyDetected = false;
 
-console.log("amogus");
-
 export function typeTextInputFieldUpdated() {
     console.log("bTypeTextCorrect: " + bTypeTextCorrect);
     console.log("numberOfMistakes: " + numberOfMistakes);

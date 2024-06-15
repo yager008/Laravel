@@ -3,12 +3,14 @@
 {{--</div>--}}
 
 <div class="container-fluid ">
+    All Typing results
     <div class="chart-container" style="position: relative; height: 40vh;">
         <canvas id="myChart" style="width: 500vh; height: 100vh; padding-left: 40px"></canvas>
     </div>
 </div>
 
 <div class="container-fluid ">
+    Daily Typing results
     <div class="chart-container" style="position: relative; height: 40vh;">
         <canvas id="dailyChart" style="width: 500vh; height: 100vh; padding-left: 40px"></canvas>
     </div>
@@ -69,7 +71,8 @@
         const data = {!! json_encode($resultsArray) !!}; // Convert PHP array to JavaScript object
 
         data.forEach(row => {
-            row.updated_at = row.updated_at.split(' ')[1]; // only dates
+            row.updated_at = row.updated_at.split(' ')[0]; // only dates
+            console.log(row.updated_at)
         });
 
         console.log(data);
@@ -138,6 +141,11 @@
                 },
                 y: {
                     beginAtZero: true,
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
                 }
             }
         };

@@ -51,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profileDelete', [ProfileController::class, 'reset'])->name('profile.reset');
 
     Route::get('/dashboard', [TypeTestController::class, 'type' ])->name('TypeTestController.type');
+    Route::get('/statistics', [TypeTestController::class, 'statistics' ])->name('TypeTestController.statistics');
+    Route::get('/savedTexts', [TypeTestController::class, 'savedTexts' ])->name('TypeTestController.savedTexts');
 
 
 //use App\Http\Controllers\MyPlaceController;
@@ -88,7 +90,7 @@ Route::get('/StoreSavedText', [TypeTestController::class, 'storeSavedTextIfCheck
 Route::post('/StoreSavedText', [TypeTestController::class, 'storeSavedTextIfCheckboxIsOn' ])->name('TypeTestControllerPost.storeSavedTextIfCheckBoxIsOn');
 Route::post('/DeleteSavedText', [TypeTestController::class, 'deleteSavedText' ])->name('TypeTestControllerPost.deleteSavedText');
 
-Route::get('/testTail', [TypeTestController::class, 'testTailwind' ])->name('TypeTestController.testTailwind');
+//Route::get('/testTail', [TypeTestController::class, 'testTailwind' ])->name('TypeTestController.testTailwind');
 
 //use App\Http\Controllers\TestController;
 //Route::get('/TestController', [TestController::class, 'index' ])->name('TestController.index');
